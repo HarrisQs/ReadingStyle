@@ -21,4 +21,8 @@ public class BasicTest extends ActivityInstrumentationTestCase2<MainActivity>
     {
         BasicTestSolo.finishOpenedActivities();
     }
+    public void testBasicRun() throws Exception
+    {
+
+    }
 }
