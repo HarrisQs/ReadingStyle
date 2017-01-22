@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by HarrisQs on 2017/1/22.
@@ -22,6 +23,19 @@ public class JasonParser extends AsyncTask<String , Integer , String>
     private String bookStoreURL = "https://cloud.culture.tw/frontsite/trans/emapOpenDataAction.do?method=exportEmapJson&typeId=M";
     private HttpURLConnection connectTheWeb;
     private JSONArray jsonArrayOfData;
+    private ArrayList<String> storeNameArray = new ArrayList<>();
+    private ArrayList<String> cityNameArray = new ArrayList<>();
+    private ArrayList<String> addressArray = new ArrayList<>();
+    private ArrayList<String> businessHoursArray = new ArrayList<>();
+    private ArrayList<String> pictureArray = new ArrayList<>();
+    private ArrayList<String> phoneArray = new ArrayList<>();
+    private ArrayList<String> emailArray = new ArrayList<>();
+    private ArrayList<String> facebookArray = new ArrayList<>();
+    private ArrayList<String> websiteArray = new ArrayList<>();
+    private ArrayList<String> arriveWayArray = new ArrayList<>();
+    private ArrayList<String> introArray = new ArrayList<>();
+    private ArrayList<String> longitudeArray = new ArrayList<>();
+    private ArrayList<String> latitudeArray = new ArrayList<>();
 
     @Override
     protected void onPreExecute() //執行前 設定可以在這邊設定
@@ -32,55 +46,10 @@ public class JasonParser extends AsyncTask<String , Integer , String>
     @Override
     protected String doInBackground(String... params) //主要的執行任務
     {
-
-        String[] item = new String[] {};
-
-        try {
-                connectInternet();
-                readAndParseData();
-            // store data
-            for(int i = 0; i < jsonArrayOfData.length(); i++) {
-
-                storeName += jsonArrayOfData.getJSONObject(i).opt("name")+"\n";
-                storeAddress += jsonArrayOfData.getJSONObject(i).opt("address")+"\n";
-                storeLongitude += jsonArrayOfData.getJSONObject(i).opt("longitude")+"\n";
-                storeLatitude += jsonArrayOfData.getJSONObject(i).opt("latitude")+"\n";
-                storeOpenTime += jsonArrayOfData.getJSONObject(i).opt("openTime")+"\n";
-                storePhone += jsonArrayOfData.getJSONObject(i).opt("phone")+"\n";
-                storeEmail += jsonArrayOfData.getJSONObject(i).opt("email")+"\n";
-                storeWebsite += jsonArrayOfData.getJSONObject(i).opt("website")+"\n";
-                storeArriveWay += jsonArrayOfData.getJSONObject(i).opt("arriveWay")+"\n";
-                storeCityName += jsonArrayOfData.getJSONObject(i).get("cityName")+"\n";
-                storeFacebook += jsonArrayOfData.getJSONObject(i).opt("facebook")+"\n";
-
-                if(jsonArrayOfData.getJSONObject(i).opt("representImage") == null || jsonArrayOfData.getJSONObject(i).opt("representImage") == "null") {
-                    storeRepresentImage += "null\n";
-                }
-                else {
-                    storeRepresentImage += jsonArrayOfData.getJSONObject(i).opt("representImage")+"\n";
-                }
-
-                String temp = jsonArrayOfData.getJSONObject(i).opt("intro")+"";
-                String temp2 = temp.replace("\n", "");
-                if(temp2 == null || temp2 == "" || temp2 == "null" || jsonArrayOfData.getJSONObject(i).opt("intro") == null){
-                    storeIntro += "無簡介"+"\n";
-                }
-                else {
-                    storeIntro += temp2+"\n";
-                }
-
-            }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return storeName;
-
+        connectInternet();
+        readAndParseData();
+        storeData();
+        return null;
     }
 
     @Override
@@ -93,11 +62,9 @@ public class JasonParser extends AsyncTask<String , Integer , String>
     protected void onPostExecute(String result) //執行後 完成背景任務
     {
         super.onPostExecute(result);
-        Toast.makeText(getApplicationContext(), "更新完成", Toast.LENGTH_SHORT).show();
-        splitStoreString(); // 分割字串
-        //display(); // display
-        card();
+        //TODO:Toast.makeText(getApplicationContext(), "更新完成", Toast.LENGTH_SHORT).show();
     }
+
     private void connectInternet()
     {
         try
@@ -116,6 +83,7 @@ public class JasonParser extends AsyncTask<String , Integer , String>
             e.printStackTrace();
         }
     }
+
     private void readAndParseData()
     {
         try
@@ -132,5 +100,49 @@ public class JasonParser extends AsyncTask<String , Integer , String>
         {
             e.printStackTrace();
         }
+    }
+
+    private void storeData()
+    {
+        try
+        {
+            for(int i = 0; i < jsonArrayOfData.length(); i++)
+            {
+                storeNameArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("name")));
+                cityNameArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("cityName")));
+                addressArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("address")));
+                businessHoursArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("openTime")));
+                phoneArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("phone")));
+                emailArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("email")));
+                facebookArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("facebook")));
+                websiteArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("website")));
+                arriveWayArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("arriveWay")));
+                longitudeArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("longitude")));
+                latitudeArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("latitude")));
+                //TODO: pictureArray 要再設計一下
+                if(jsonArrayOfData.getJSONObject(i).opt("representImage") == null || jsonArrayOfData.getJSONObject(i).opt("representImage") == "null")
+                {
+                    pictureArray.add("null");
+                }
+                else
+                {
+                    pictureArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("representImage")));
+                }
+                if(jsonArrayOfData.getJSONObject(i).opt("intro") == null)
+                {
+                    introArray.add("無簡介");
+                }
+                else
+                {
+                    introArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("cityName")));
+                }
+            }
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }
