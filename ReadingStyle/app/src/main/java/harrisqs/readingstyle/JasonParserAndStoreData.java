@@ -1,6 +1,9 @@
 package harrisqs.readingstyle;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -18,7 +21,7 @@ import java.util.ArrayList;
  * Created by HarrisQs on 2017/1/22.
  */
 
-public class JasonParser extends AsyncTask<String , Integer , String>
+public class JasonParserAndStoreData extends AsyncTask<Void, Void, Void>
 {
     private String bookStoreURL = "https://cloud.culture.tw/frontsite/trans/emapOpenDataAction.do?method=exportEmapJson&typeId=M";
     private HttpURLConnection connectTheWeb;
@@ -36,15 +39,21 @@ public class JasonParser extends AsyncTask<String , Integer , String>
     private ArrayList<String> introArray = new ArrayList<>();
     private ArrayList<String> longitudeArray = new ArrayList<>();
     private ArrayList<String> latitudeArray = new ArrayList<>();
+    private Context mContextForToast;
 
+    JasonParserAndStoreData(Context passContext)
+    {
+        mContextForToast = passContext;
+    }
     @Override
     protected void onPreExecute() //執行前 設定可以在這邊設定
     {
+
         super.onPreExecute();
     }
 
     @Override
-    protected String doInBackground(String... params) //主要的執行任務
+    protected Void doInBackground(Void...arg) //主要的執行任務
     {
         connectInternet();
         readAndParseData();
@@ -53,16 +62,16 @@ public class JasonParser extends AsyncTask<String , Integer , String>
     }
 
     @Override
-    protected void onProgressUpdate(Integer... values) //執行中 可以在這邊告知使用者進度
+    protected void onProgressUpdate(Void...arg) //執行中 可以在這邊告知使用者進度
     {
-        super.onProgressUpdate(values);
+        super.onProgressUpdate(arg);
     }
 
     @Override
-    protected void onPostExecute(String result) //執行後 完成背景任務
+    protected void onPostExecute(Void result) //執行後 完成背景任務
     {
         super.onPostExecute(result);
-        //TODO:Toast.makeText(getApplicationContext(), "更新完成", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContextForToast, "更新完成", Toast.LENGTH_SHORT).show();
     }
 
     private void connectInternet()
@@ -76,11 +85,12 @@ public class JasonParser extends AsyncTask<String , Integer , String>
         }
         catch (MalformedURLException e)
         {
-            e.printStackTrace();
+            Log.e("URLException", e.getMessage());
+
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            Log.e("IOException", e.getMessage());
         }
     }
 
@@ -94,11 +104,11 @@ public class JasonParser extends AsyncTask<String , Integer , String>
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            Log.e("IOException", e.getMessage());
         }
         catch (JSONException e)
         {
-            e.printStackTrace();
+            Log.e("JSONException", e.getMessage());
         }
     }
 
@@ -141,7 +151,7 @@ public class JasonParser extends AsyncTask<String , Integer , String>
         }
         catch (JSONException e)
         {
-            e.printStackTrace();
+            Log.e("JSONException", e.getMessage());
         }
 
     }

@@ -26,9 +26,10 @@ public class BasicTest extends ActivityInstrumentationTestCase2<MainActivity>
 
     }
 
-    public void test在背景下載書店資料() throws Exception
+    public void test背景下載書店資料() throws Exception
     {
-
+        boolean notSearch = BasicTestSolo.searchText("更新完成");
+        assertTrue("無法下載書店資料", notSearch);
     }
 
     public void Mtest秀出書店列表() throws Exception

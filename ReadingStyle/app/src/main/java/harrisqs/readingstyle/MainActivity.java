@@ -1,10 +1,12 @@
 package harrisqs.readingstyle;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         defaultSettingOfToolbar();
         defaultSettingOfDrawerLayout();
-
+        new JasonParserAndStoreData(getApplicationContext()).execute();
     }
 
     private void defaultSettingOfToolbar()
