@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by HarrisQs on 2017/1/23.
  */
 
-public class StoreData
+public class StoreDataToSQLite
 {
     private ArrayList<String> storeNameArray = new ArrayList<>();
     private ArrayList<String> cityNameArray = new ArrayList<>();
@@ -27,7 +27,7 @@ public class StoreData
     private ArrayList<String> longitudeArray = new ArrayList<>();
     private ArrayList<String> latitudeArray = new ArrayList<>();
 
-    StoreData()
+    StoreDataToSQLite()
     {
         ReadAndParseData dataClass = new ReadAndParseData();
         JSONArray jsonArrayOfData = dataClass.getJsonArrayOfData();
@@ -37,6 +37,9 @@ public class StoreData
             for(int i = 0; i < jsonArrayOfData.length(); i++)
             {
                 storeNameArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("name")));
+
+
+
                 cityNameArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("cityName")));
                 addressArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("address")));
                 businessHoursArray.add(String.valueOf(jsonArrayOfData.getJSONObject(i).opt("openTime")));

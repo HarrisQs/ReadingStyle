@@ -27,7 +27,7 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... arg) //主要的執行任務
     {
-        new StoreData();
+        new StoreDataToSQLite();
         return null;
     }
 
