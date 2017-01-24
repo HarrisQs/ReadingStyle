@@ -32,7 +32,7 @@ public class BasicTest extends ActivityInstrumentationTestCase2<MainActivity>
         assertTrue("無法下載書店資料", notSearch);
     }
 
-    public void Mtest秀出書店列表() throws Exception
+    public void test秀出書店列表() throws Exception
     {
         boolean notSearch = BasicTestSolo.searchText("女書店");
         assertTrue("無法正確秀出書店列表", notSearch);

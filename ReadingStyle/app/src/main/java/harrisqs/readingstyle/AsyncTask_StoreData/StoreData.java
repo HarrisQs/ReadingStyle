@@ -1,31 +1,18 @@
-package harrisqs.readingstyle;
+package harrisqs.readingstyle.AsyncTask_StoreData;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by HarrisQs on 2017/1/22.
+ * Created by HarrisQs on 2017/1/23.
  */
 
-public class JasonParserAndStoreData extends AsyncTask<Void, Void, Void>
+public class StoreData
 {
-    private String bookStoreURL = "https://cloud.culture.tw/frontsite/trans/emapOpenDataAction.do?method=exportEmapJson&typeId=M";
-    private HttpURLConnection connectTheWeb;
-    private JSONArray jsonArrayOfData;
     private ArrayList<String> storeNameArray = new ArrayList<>();
     private ArrayList<String> cityNameArray = new ArrayList<>();
     private ArrayList<String> addressArray = new ArrayList<>();
@@ -39,81 +26,12 @@ public class JasonParserAndStoreData extends AsyncTask<Void, Void, Void>
     private ArrayList<String> introArray = new ArrayList<>();
     private ArrayList<String> longitudeArray = new ArrayList<>();
     private ArrayList<String> latitudeArray = new ArrayList<>();
-    private Context mContextForToast;
 
-    JasonParserAndStoreData(Context passContext)
+    StoreData()
     {
-        mContextForToast = passContext;
-    }
-    @Override
-    protected void onPreExecute() //執行前 設定可以在這邊設定
-    {
+        ReadAndParseData dataClass = new ReadAndParseData();
+        JSONArray jsonArrayOfData = dataClass.getJsonArrayOfData();
 
-        super.onPreExecute();
-    }
-
-    @Override
-    protected Void doInBackground(Void...arg) //主要的執行任務
-    {
-        connectInternet();
-        readAndParseData();
-        storeData();
-        return null;
-    }
-
-    @Override
-    protected void onProgressUpdate(Void...arg) //執行中 可以在這邊告知使用者進度
-    {
-        super.onProgressUpdate(arg);
-    }
-
-    @Override
-    protected void onPostExecute(Void result) //執行後 完成背景任務
-    {
-        super.onPostExecute(result);
-        Toast.makeText(mContextForToast, "更新完成", Toast.LENGTH_SHORT).show();
-    }
-
-    private void connectInternet()
-    {
-        try
-        {
-            URL connectBookStoreData = new URL(bookStoreURL);
-            connectTheWeb = (HttpURLConnection) connectBookStoreData.openConnection();
-            connectTheWeb.setDoInput(true);
-            connectTheWeb.setDoOutput(true);
-        }
-        catch (MalformedURLException e)
-        {
-            Log.e("URLException", e.getMessage());
-
-        }
-        catch (IOException e)
-        {
-            Log.e("IOException", e.getMessage());
-        }
-    }
-
-    private void readAndParseData()
-    {
-        try
-        {
-            BufferedReader dataReader = new BufferedReader(new InputStreamReader(connectTheWeb.getInputStream(), "UTF-8"));
-            jsonArrayOfData = new JSONArray(dataReader.readLine());
-            dataReader.close();
-        }
-        catch (IOException e)
-        {
-            Log.e("IOException", e.getMessage());
-        }
-        catch (JSONException e)
-        {
-            Log.e("JSONException", e.getMessage());
-        }
-    }
-
-    private void storeData()
-    {
         try
         {
             for(int i = 0; i < jsonArrayOfData.length(); i++)
