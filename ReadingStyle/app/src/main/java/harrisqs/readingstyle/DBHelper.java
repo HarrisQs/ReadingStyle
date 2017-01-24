@@ -4,6 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by HarrisQs on 2017/1/24.
@@ -24,22 +28,23 @@ public class DBHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase dbControler)
     {
-
+        //Todo 應該要有個新的函示來處理新增表的事情
         final String bookstoreSQLCommand = "CREATE TABLE IF NOT EXISTS " + bookStoreTableName +
                 "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "storeName VARCHAR(100), " +
+                "name VARCHAR(100), " +
                 "intro VARCHAR(100), " +
                 "address VARCHAR(100), " +
+                "areaCode VARCHAR(100), " +
                 "cityName VARCHAR(100), " +
-                "bussinessTime VARCHAR(100), " +
-                "phone VARCHAR(100)," +
-                "email VARCHAR(100)," +
-                "facebook VARCHAR(100)," +
-                "website VARCHAR(100)," +
+                "openTime VARCHAR(100), " +
+                "phone VARCHAR(100), " +
+                "email VARCHAR(100), " +
+                "facebook VARCHAR(100), " +
+                "website VARCHAR(100), " +
                 "arriveWay VARCHAR(100), " +
-                "picture VARCHAR(100), " +
+                "representImage VARCHAR(100), " +
                 "longitude VARCHAR(100), " +
-                "latitude VARCHAR(100), " +
+                "latitude VARCHAR(100) " +
                 " );";
 
         // 執行語法
@@ -49,18 +54,21 @@ public class DBHelper extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
 
-    public void insertBookStore(String storeName, String cityName, String bussinessTime, String phone
-            , String arriveWay, String picture, SQLiteDatabase db)
+    public void insertBookStore(JSONObject storeDetailData, SQLiteDatabase db)
     {
-        String fieldName[] = {"storeName", "intro", "address", "cityName", "bussinessTime",
-                             "phone", "email", "facebook", "website", "arriveWay", "picture",
+        String fieldName[] = {"name", "intro", "address", "cityName", "openTime", "areaCode",
+                             "phone", "email", "facebook", "website", "arriveWay", "representImage",
                              "longitude", "latitude" };
-        //Todo 兩個陣列，來重構
-        ContentValues values = new ContentValues(6);
-        for(int i = 0 ; i < 13; i++)
-            values.put(fieldName[i], storeName);
-
-
+        ContentValues values = new ContentValues(13);
+        try
+        {
+            for (int i = 0; i < 13; i++)
+                values.put(fieldName[i], storeDetailData.getString(fieldName[i]));
+        }
+        catch(JSONException e)
+        {
+            Log.e("JSONException SQLHelper", e.getMessage());
+        }
         db.insert(bookStoreTableName, null, values);
     }
 

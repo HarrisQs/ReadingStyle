@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         defaultSettingOfToolbar();
         defaultSettingOfDrawerLayout();
         new BackgroundStoreData(getApplicationContext()).execute();
-        BookStoreCard myAdapter = new BookStoreCard(myDataset);
+        //TODO BookStoreCard myAdapter = new BookStoreCard(myDataset);
     }
 
     private void defaultSettingOfToolbar()
