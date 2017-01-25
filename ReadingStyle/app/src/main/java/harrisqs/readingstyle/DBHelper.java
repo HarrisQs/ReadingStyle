@@ -2,6 +2,7 @@ package harrisqs.readingstyle;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -15,20 +16,29 @@ import org.json.JSONObject;
 
 public class DBHelper extends SQLiteOpenHelper
 {
-
-    private final static int DBVersion = 1;                             // 版本
-    private final static String DBName = "ReadStyleing.db";            // db name
-    public final static String bookStoreTableName = "BookStore";    // 存書店資訊
-
+    private final static String bookStoreTableName = "BookStore";    // 存書店資訊
+    private SQLiteDatabase dbController;
     public DBHelper(Context context)
     {
-        super(context, DBName, null, DBVersion);
+        super(context, "ReadStyleing.db" , null, 1);
+        dbController = this.getWritableDatabase();
     }
 
     @Override
-    public void onCreate(SQLiteDatabase dbControler)
+    public void onCreate(SQLiteDatabase dbController)
     {
         //Todo 應該要有個新的函示來處理新增表的事情
+        createBookStoreTable();
+
+        // 執行語法
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
+
+    public void createBookStoreTable()
+    {
         final String bookstoreSQLCommand = "CREATE TABLE IF NOT EXISTS " + bookStoreTableName +
                 "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name VARCHAR(100), " +
@@ -46,15 +56,10 @@ public class DBHelper extends SQLiteOpenHelper
                 "longitude VARCHAR(100), " +
                 "latitude VARCHAR(100) " +
                 " );";
-
-        // 執行語法
-        dbControler.execSQL(bookstoreSQLCommand);
+        dbController.execSQL(bookstoreSQLCommand);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
-
-    public void insertBookStore(JSONObject storeDetailData, SQLiteDatabase db)
+    public void insertBookStore(JSONObject storeDetailData)
     {
         String fieldName[] = {"name", "intro", "address", "cityName", "openTime", "areaCode",
                              "phone", "email", "facebook", "website", "arriveWay", "representImage",
@@ -69,7 +74,15 @@ public class DBHelper extends SQLiteOpenHelper
         {
             Log.e("JSONException SQLHelper", e.getMessage());
         }
-        db.insert(bookStoreTableName, null, values);
+        dbController.insert(bookStoreTableName, null, values);
+    }
+
+    public String queryBookStore(String condition)
+    {
+        String queryCommand = "SELECT * FROM "+ bookStoreTableName + condition;
+        Cursor dbCursor = dbController.rawQuery(queryCommand, null);
+        Log.e("queryCommand", dbCursor.getString(0));
+        return dbCursor.getString(0);
     }
 
 }

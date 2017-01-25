@@ -24,7 +24,7 @@ public class StoreDataToSQLite
         try
         {
             for(int i = 0; i < 1; i++)
-                storeToDB.insertBookStore(jsonArrayOfData.getJSONObject(i), storeToDB.getWritableDatabase());
+                storeToDB.insertBookStore(jsonArrayOfData.getJSONObject(i));
         }
         catch (JSONException e)
         {
