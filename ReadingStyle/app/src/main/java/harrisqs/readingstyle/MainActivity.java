@@ -1,11 +1,15 @@
 package harrisqs.readingstyle;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 import harrisqs.readingstyle.AsyncTask_StoreData.BackgroundStoreData;
 
@@ -21,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         defaultSettingOfToolbar();
         defaultSettingOfDrawerLayout();
         new BackgroundStoreData(getApplicationContext()).execute();
-        //TODO BookStoreCard myAdapter = new BookStoreCard(myDataset);
     }
 
     private void defaultSettingOfToolbar()

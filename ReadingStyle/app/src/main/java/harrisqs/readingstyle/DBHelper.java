@@ -27,15 +27,12 @@ public class DBHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase dbController)
     {
-        //Todo 應該要有個新的函示來處理新增表的事情
-        createBookStoreTable();
-
-        // 執行語法
-
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
+    {
+    }
 
     public void createBookStoreTable()
     {
@@ -59,6 +56,11 @@ public class DBHelper extends SQLiteOpenHelper
         dbController.execSQL(bookstoreSQLCommand);
     }
 
+    public void deleteBookStoreTable()
+    {
+        final String dropQuery = "DROP TABLE IF EXISTS " + bookStoreTableName;
+        dbController.execSQL(dropQuery);
+    }
     public void insertBookStore(JSONObject storeDetailData)
     {
         String fieldName[] = {"name", "intro", "address", "cityName", "openTime", "areaCode",
@@ -67,8 +69,15 @@ public class DBHelper extends SQLiteOpenHelper
         ContentValues values = new ContentValues(13);
         try
         {
+
             for (int i = 0; i < 13; i++)
-                values.put(fieldName[i], storeDetailData.getString(fieldName[i]));
+            {
+                if(storeDetailData.getString(fieldName[i]) == null || storeDetailData.getString(fieldName[i]) == "null"
+                    || storeDetailData.getString(fieldName[i]) == "")
+                    values.put(fieldName[i], "無");
+                else
+                    values.put(fieldName[i], storeDetailData.getString(fieldName[i]));
+            }
         }
         catch(JSONException e)
         {
@@ -77,12 +86,15 @@ public class DBHelper extends SQLiteOpenHelper
         dbController.insert(bookStoreTableName, null, values);
     }
 
-    public String queryBookStore(String condition)
+    public Cursor queryBookStore(String condition)
     {
-        String queryCommand = "SELECT * FROM "+ bookStoreTableName + condition;
-        Cursor dbCursor = dbController.rawQuery(queryCommand, null);
-        Log.e("queryCommand", dbCursor.getString(0));
-        return dbCursor.getString(0);
+        Cursor dbCursor = dbController.query(
+                bookStoreTableName, null, condition, null, null, null, null, null);
+        if (dbCursor != null)
+        {
+            dbCursor.moveToFirst();	//將指標移到第一筆資料
+        }
+        return dbCursor;
     }
 
 }

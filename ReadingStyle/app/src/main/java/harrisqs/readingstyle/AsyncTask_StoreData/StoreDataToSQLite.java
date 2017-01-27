@@ -20,10 +20,11 @@ public class StoreDataToSQLite
         ReadAndParseData dataClass = new ReadAndParseData();
         JSONArray jsonArrayOfData = dataClass.getJsonArrayOfData();
         DBHelper storeToDB = new DBHelper(passContext);
-
+        storeToDB.deleteBookStoreTable();
+        storeToDB.createBookStoreTable();
         try
         {
-            for(int i = 0; i < 1; i++)
+            for(int i = 0; i < jsonArrayOfData.length(); i++)
                 storeToDB.insertBookStore(jsonArrayOfData.getJSONObject(i));
         }
         catch (JSONException e)
