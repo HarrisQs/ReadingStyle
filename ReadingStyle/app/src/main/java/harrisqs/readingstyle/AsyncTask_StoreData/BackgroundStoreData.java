@@ -1,42 +1,55 @@
 package harrisqs.readingstyle.AsyncTask_StoreData;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import harrisqs.readingstyle.BookStoreCard;
 import harrisqs.readingstyle.DBHelper;
+import harrisqs.readingstyle.MainActivity;
+
+import static android.support.v7.recyclerview.R.attr.layoutManager;
 
 /**
  * Created by HarrisQs on 2017/1/22.
  */
 
-public class BackgroundStoreData extends AsyncTask<Void, Void, Void> {
+public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
+{
+    private ArrayList<String> nameDataset;
+    private ProgressBar spinTask;
+    private Activity mParentActivity;
+    private RecyclerView recycle;               // 卡片要裝進這個view來顯示
 
-
-    private Context mContext;
-
-    public BackgroundStoreData(Context passContext)
+    public BackgroundStoreData(Activity passActivity, ProgressBar bar)
     {
-        mContext = passContext;
+        mParentActivity = passActivity;
+        spinTask = bar;
     }
 
     @Override
     protected void onPreExecute() //執行前 設定可以在這邊設定
     {
         super.onPreExecute();
+        spinTask.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected Void doInBackground(Void... arg) //主要的執行任務
     {
-        new StoreDataToSQLite(mContext);
-        ArrayList<String> myDataset = convertDatatoArrayList();
-        BookStoreCard myAdapter = new BookStoreCard(myDataset);
+        new StoreDataToSQLite(mParentActivity);
+        nameDataset = convertDatatoArrayList();
+
         return null;
     }
 
@@ -50,22 +63,31 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) //執行後 完成背景任務
     {
         super.onPostExecute(result);
-        Toast.makeText(mContext, "更新完成", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mParentActivity, "更新完成", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.setClass(mParentActivity, MainActivity.class);
+        mParentActivity.startActivity(intent);
+        mParentActivity.finish();
+
     }
     private ArrayList<String> convertDatatoArrayList()
-    {
-        DBHelper queryFromDB = new DBHelper(mContext);
-        ArrayList<String>myDataset = new ArrayList<>();
-        Cursor dataCursor = queryFromDB.queryBookStore("");
-        dataCursor.moveToFirst();
-        do
         {
-            for (int i = 0; i < 13; i++)
+            DBHelper queryFromDB = new DBHelper(mParentActivity);
+            ArrayList<String>myDataset = new ArrayList<>();
+            Cursor dataCursor = queryFromDB.queryBookStore("");
+            dataCursor.moveToFirst();
+            do
             {
-                String name = dataCursor.getString(i);
-                myDataset.add(name);//name
-            }
-        }while (dataCursor.moveToNext());
-        return myDataset;
+                for (int i = 0; i < 13; i++)
+                {
+                    String name = dataCursor.getString(i);
+                    myDataset.add(name);//name
+                }
+            }while (dataCursor.moveToNext());
+            return myDataset;
+    }
+    public ArrayList<String> getNameDataset()
+    {
+        return nameDataset;
     }
 }

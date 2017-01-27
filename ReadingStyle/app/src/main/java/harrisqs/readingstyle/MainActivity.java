@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -17,6 +19,7 @@ import harrisqs.readingstyle.AsyncTask_StoreData.BackgroundStoreData;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
+    private RecyclerView recycle;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -24,7 +27,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         defaultSettingOfToolbar();
         defaultSettingOfDrawerLayout();
-        new BackgroundStoreData(getApplicationContext()).execute();
+        /*BookStoreCard myAdapter = new BookStoreCard(backgroundRun.getNameDataset());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getApplicationContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycle.setLayoutManager(layoutManager);
+        recycle.setAdapter(myAdapter);
+        */
+       // linearLayout.addView(recycle);
     }
 
     private void defaultSettingOfToolbar()
