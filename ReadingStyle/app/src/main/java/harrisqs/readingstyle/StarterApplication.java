@@ -21,12 +21,45 @@ public class StarterApplication extends Application {
     {
         super.onCreate();
     }
-    public void setBookStoreCard(ArrayList<String> passNameDataset)
+
+    public void setBookStoreCardName(ArrayList<String> passNameDataset)
     {
         bookStoreData.setNameDataset(passNameDataset);
     }
-    public ArrayList<String> getBookStoreCard()
+
+    public ArrayList<String> getBookStoreCardName()
     {
         return bookStoreData.getNameDataset();
     }
+
+    public void setBookStoreCardCity(ArrayList<String> passNameDataset)
+    {
+        bookStoreData.setcityDataset(passNameDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardCity()
+    {
+        return bookStoreData.getcityDataset();
+    }
+
+    public void setBookStoreCardAddr(ArrayList<String> passNameDataset)
+    {
+        bookStoreData.setaddrDataset(passNameDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardAddr()
+    {
+        return bookStoreData.getaddrDataset();
+    }
+
+    public void setBookStoreCardTime(ArrayList<String> passNameDataset)
+    {
+        bookStoreData.settimeDataset(passNameDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardTime()
+    {
+        return bookStoreData.gettimeDataset();
+    }
+
 }

@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
     {
         linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
         recycle = new RecyclerView(this);
-        Card myAdapter = new Card(getData.getBookStoreCard());
+        Card myAdapter = new Card(getData.getBookStoreCardName(), getData.getBookStoreCardCity(),
+                 getData.getBookStoreCardAddr(), getData.getBookStoreCardTime());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);

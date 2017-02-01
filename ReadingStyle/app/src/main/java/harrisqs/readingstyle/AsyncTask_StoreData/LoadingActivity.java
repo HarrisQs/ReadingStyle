@@ -7,10 +7,8 @@ import android.widget.ProgressBar;
 
 import harrisqs.readingstyle.R;
 
-public class LoadingActivity extends AppCompatActivity {
-
-    // String for LogCat documentation
-    private final static String TAG = "SplashScreenActivity";
+public class LoadingActivity extends AppCompatActivity
+{
     private ProgressBar spinbar;
 
     @Override

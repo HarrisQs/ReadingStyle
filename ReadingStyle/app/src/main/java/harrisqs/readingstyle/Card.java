@@ -24,32 +24,45 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public RelativeLayout cardrelative;
-        public TextView mTextView;
+        public TextView storeTitle;
+        public TextView cityTitle;
+        public TextView addrTitle;
+        public TextView timeTitle;
 
         public ViewHolder(View v)
         {
             super(v);
             cardrelative = (RelativeLayout) v.findViewById(R.id.cardRelative);
-            mTextView = (TextView) v.findViewById(R.id.storeName);
+            storeTitle = (TextView) v.findViewById(R.id.storeName);
+            cityTitle = (TextView) v.findViewById(R.id.city);
+            addrTitle = (TextView) v.findViewById(R.id.addr);
+            timeTitle = (TextView) v.findViewById(R.id.time);
         }
     }
 
-    public Card(List<String> data)
+    public Card(List<String> storeNamedata, List<String> cityNamedata, List<String> addressdata, List<String> businessHoursdata)
     {
-        storeNameArray = data;
+        storeNameArray = storeNamedata;
+        cityNameArray = cityNamedata;
+        addressArray = addressdata;
+        businessHoursArray = businessHoursdata;
     }
 
     @Override
-    public Card.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Card.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.mTextView.setText(storeNameArray.get(position));
-
+    public void onBindViewHolder(final ViewHolder holder, final int position)
+    {
+        holder.storeTitle.setText(storeNameArray.get(position));
+        holder.cityTitle.setText(cityNameArray.get(position));
+        holder.addrTitle.setText(addressArray.get(position));
+        holder.timeTitle.setText(businessHoursArray.get(position));
     }
 
     @Override

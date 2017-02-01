@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -24,15 +22,21 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
 {
     private ProgressBar spinTask;
     private Activity mParentActivity;
-    //private StarterApplication setData;
     private StarterApplication setData;
-    private RecyclerView recycle;               // 卡片要裝進這個view來顯示
+    private ArrayList<String>nameTemp;
+    private ArrayList<String>cityTemp;
+    private ArrayList<String>addrTemp;
+    private ArrayList<String>timeTemp;
 
     public BackgroundStoreData(Activity passActivity, ProgressBar bar)
     {
         mParentActivity = passActivity;
         spinTask = bar;
         setData = (StarterApplication)passActivity.getApplication();
+        nameTemp = new ArrayList<>();
+        cityTemp = new ArrayList<>();
+        addrTemp = new ArrayList<>();
+        timeTemp = new ArrayList<>();
     }
 
     @Override
@@ -46,9 +50,11 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
     protected Void doInBackground(Void... arg) //主要的執行任務
     {
         new StoreDataToSQLite(mParentActivity);
-        ArrayList<String>temp = convertDatatoArrayList();
-        setData.setBookStoreCard(temp);
-
+        convertDatatoArrayList();
+        setData.setBookStoreCardName(nameTemp);
+        setData.setBookStoreCardCity(cityTemp);
+        setData.setBookStoreCardAddr(addrTemp);
+        setData.setBookStoreCardTime(timeTemp);
         return null;
     }
 
@@ -69,20 +75,17 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         mParentActivity.finish();
 
     }
-    private ArrayList<String> convertDatatoArrayList()
+    private void convertDatatoArrayList()
+    {
+        DBHelper queryFromDB = new DBHelper(mParentActivity);
+        Cursor dataCursor = queryFromDB.queryBookStore("");
+        dataCursor.moveToFirst();
+        do
         {
-            DBHelper queryFromDB = new DBHelper(mParentActivity);
-            ArrayList<String>myDataset = new ArrayList<>();
-            Cursor dataCursor = queryFromDB.queryBookStore("");
-            dataCursor.moveToFirst();
-            do
-            {
-                //todo for (int i = 0; i < 13; i++)
-                //{
-                    String name = dataCursor.getString(1);
-                    myDataset.add(name);//name
-               //}
-            }while (dataCursor.moveToNext());
-            return myDataset;
+                nameTemp.add(dataCursor.getString(1));
+                cityTemp.add(dataCursor.getString(4));
+                addrTemp.add(dataCursor.getString(3));
+                timeTemp.add(dataCursor.getString(5));
+        }while (dataCursor.moveToNext());
     }
 }
