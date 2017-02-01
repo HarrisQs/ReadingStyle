@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
     private ArrayList<String>cityTemp;
     private ArrayList<String>addrTemp;
     private ArrayList<String>timeTemp;
+    private ArrayList<String>ImageTemp;
 
     public BackgroundStoreData(Activity passActivity, ProgressBar bar)
     {
@@ -37,6 +39,7 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         cityTemp = new ArrayList<>();
         addrTemp = new ArrayList<>();
         timeTemp = new ArrayList<>();
+        ImageTemp = new ArrayList<>();
     }
 
     @Override
@@ -55,6 +58,7 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         setData.setBookStoreCardCity(cityTemp);
         setData.setBookStoreCardAddr(addrTemp);
         setData.setBookStoreCardTime(timeTemp);
+        setData.setBookStoreCardImage(ImageTemp);
         return null;
     }
 
@@ -82,10 +86,11 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         dataCursor.moveToFirst();
         do
         {
-                nameTemp.add(dataCursor.getString(1));
-                cityTemp.add(dataCursor.getString(4));
-                addrTemp.add(dataCursor.getString(3));
-                timeTemp.add(dataCursor.getString(5));
+            nameTemp.add(dataCursor.getString(1));
+            cityTemp.add(dataCursor.getString(4));
+            addrTemp.add(dataCursor.getString(3));
+            timeTemp.add(dataCursor.getString(5));
+            ImageTemp.add(dataCursor.getString(12));
         }while (dataCursor.moveToNext());
     }
 }

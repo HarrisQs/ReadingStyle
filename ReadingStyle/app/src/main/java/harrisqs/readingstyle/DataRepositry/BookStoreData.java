@@ -14,6 +14,7 @@ public class BookStoreData
     private ArrayList<String> cityDataset;
     private ArrayList<String> addrDataset;
     private ArrayList<String> timeDataset;
+    private ArrayList<String> ImageDataset;
 
     public void setNameDataset(ArrayList<String> passNameDataset)
     {
@@ -54,5 +55,15 @@ public class BookStoreData
     public ArrayList<String> gettimeDataset()
     {
         return timeDataset;
+    }
+    public void setImageDataset(ArrayList<String> passImageDataset)
+    {
+        ImageDataset = new ArrayList<String>();
+        for (int i = 0 ; i < passImageDataset.size() ; i ++)
+            ImageDataset.add(i, passImageDataset.get(i));
+    }
+    public ArrayList<String> getImageDataset()
+    {
+        return ImageDataset;
     }
 }

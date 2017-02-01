@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.LinearLayout;
 
 
@@ -57,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
     {
         linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
         recycle = new RecyclerView(this);
-        Card myAdapter = new Card(getData.getBookStoreCardName(), getData.getBookStoreCardCity(),
-                 getData.getBookStoreCardAddr(), getData.getBookStoreCardTime());
+        Card myAdapter = new Card(this, getData.getBookStoreCardName(), getData.getBookStoreCardCity(),
+                 getData.getBookStoreCardAddr(), getData.getBookStoreCardTime(),
+                getData.getBookStoreCardImage());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);

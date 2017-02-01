@@ -1,11 +1,16 @@
 package harrisqs.readingstyle;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,7 +24,8 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
     private List<String> cityNameArray;
     private List<String> addressArray;
     private List<String> businessHoursArray;
-    private List<String> pictureArray;
+    private List<String> ImageArray;
+    private Activity mActivity;
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -28,6 +34,7 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
         public TextView cityTitle;
         public TextView addrTitle;
         public TextView timeTitle;
+        public ImageView ImageTitle;
 
         public ViewHolder(View v)
         {
@@ -37,15 +44,20 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
             cityTitle = (TextView) v.findViewById(R.id.city);
             addrTitle = (TextView) v.findViewById(R.id.addr);
             timeTitle = (TextView) v.findViewById(R.id.time);
+            ImageTitle = (ImageView) v.findViewById(R.id.store_image);
         }
     }
 
-    public Card(List<String> storeNamedata, List<String> cityNamedata, List<String> addressdata, List<String> businessHoursdata)
+    public Card(Activity passActivity, List<String> storeNamedata, List<String> cityNamedata,
+                List<String> addressdata, List<String> businessHoursdata,
+                List<String> Imagedata)
     {
         storeNameArray = storeNamedata;
         cityNameArray = cityNamedata;
         addressArray = addressdata;
         businessHoursArray = businessHoursdata;
+        ImageArray = Imagedata;
+        mActivity = passActivity;
     }
 
     @Override
@@ -63,6 +75,12 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
         holder.cityTitle.setText(cityNameArray.get(position));
         holder.addrTitle.setText(addressArray.get(position));
         holder.timeTitle.setText(businessHoursArray.get(position));
+        if(ImageArray.get(position) == null || ImageArray.get(position) == "無" || ImageArray.get(position).isEmpty()) {
+            Picasso.with(mActivity).load(R.drawable.bookstore).into(holder.ImageTitle);
+        }
+        else {
+            Picasso.with(mActivity).load(ImageArray.get(position)).error(R.drawable.bookstore).placeholder(R.drawable.bookstore).fit().centerCrop().into(holder.ImageTitle);
+        }
     }
 
     @Override

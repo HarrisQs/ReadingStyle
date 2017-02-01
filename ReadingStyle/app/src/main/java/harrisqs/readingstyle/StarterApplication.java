@@ -61,5 +61,14 @@ public class StarterApplication extends Application {
     {
         return bookStoreData.gettimeDataset();
     }
+    public void setBookStoreCardImage(ArrayList<String> passImageDataset)
+    {
+        bookStoreData.setImageDataset(passImageDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardImage()
+    {
+        return bookStoreData.getImageDataset();
+    }
 
 }
