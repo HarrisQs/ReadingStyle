@@ -5,4 +5,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!--for @menu/drawer-->
+    <string name="overview">總覽</string>
+    <string name="nearby">附近的店家</string>
+    <string name="map">地圖</string>
+    <string name="myFavorites">我的最愛</string>
+    <string name="info">說明</string>
+    <string name="about">關於我們</string>
+    <string name="exit">退出</string>
+    <string name="signOut">登出</string>
+    <string name="signIn">登入</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

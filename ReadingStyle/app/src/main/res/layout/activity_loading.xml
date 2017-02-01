@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.user.readworld.LoadingActivity"
+    tools:context="harrisqs.readingstyle.AsyncTask_StoreData.LoadingActivity"
     android:background="#bd7427">
 
     <ProgressBar
