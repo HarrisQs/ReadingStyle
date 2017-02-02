@@ -70,5 +70,33 @@ public class StarterApplication extends Application {
     {
         return bookStoreData.getImageDataset();
     }
+    public void setBookStoreCardIntro(ArrayList<String> passIntroDataset)
+    {
+        bookStoreData.setIntroDataset(passIntroDataset);
+    }
 
+    public ArrayList<String> getBookStoreCardIntro()
+    {
+        return bookStoreData.getIntroDataset();
+    }
+
+    public void setBookStoreCardphone(ArrayList<String> passphoneDataset)
+    {
+        bookStoreData.setphoneDataset(passphoneDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardphone()
+    {
+        return bookStoreData.getphoneDataset();
+    }
+
+    public void setBookStoreCardarriveWay(ArrayList<String> passarriveWayDataset)
+    {
+        bookStoreData.setarriveWayDataset(passarriveWayDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardarriveWay()
+    {
+        return bookStoreData.getarriveWayDataset();
+    }
 }

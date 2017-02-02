@@ -92,7 +92,7 @@ public class DBHelper extends SQLiteOpenHelper
                 bookStoreTableName, null, condition, null, null, null, null, null);
         if (dbCursor != null)
         {
-            dbCursor.moveToFirst();	//將指標移到第一筆資料
+            dbCursor.moveToFirst();    //將指標移到第一筆資料
         }
         return dbCursor;
     }

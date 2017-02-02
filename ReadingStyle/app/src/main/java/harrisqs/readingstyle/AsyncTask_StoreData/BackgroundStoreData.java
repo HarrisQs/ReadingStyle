@@ -29,6 +29,9 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
     private ArrayList<String>addrTemp;
     private ArrayList<String>timeTemp;
     private ArrayList<String>ImageTemp;
+    private ArrayList<String>phoneTemp;
+    private ArrayList<String>IntroTemp;
+    private ArrayList<String>arriveWayTemp;
 
     public BackgroundStoreData(Activity passActivity, ProgressBar bar)
     {
@@ -40,6 +43,9 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         addrTemp = new ArrayList<>();
         timeTemp = new ArrayList<>();
         ImageTemp = new ArrayList<>();
+        phoneTemp = new ArrayList<>();
+        IntroTemp = new ArrayList<>();
+        arriveWayTemp = new ArrayList<>();
     }
 
     @Override
@@ -59,6 +65,9 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         setData.setBookStoreCardAddr(addrTemp);
         setData.setBookStoreCardTime(timeTemp);
         setData.setBookStoreCardImage(ImageTemp);
+        setData.setBookStoreCardphone(phoneTemp);
+        setData.setBookStoreCardIntro(IntroTemp);
+        setData.setBookStoreCardarriveWay(arriveWayTemp);
         return null;
     }
 
@@ -87,6 +96,9 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         do
         {
             nameTemp.add(dataCursor.getString(1));
+            IntroTemp.add(dataCursor.getString(2));
+            arriveWayTemp.add(dataCursor.getString(11));
+            phoneTemp.add(dataCursor.getString(7));
             addrTemp.add(dataCursor.getString(3));
             cityTemp.add(dataCursor.getString(5));
             timeTemp.add(dataCursor.getString(6));

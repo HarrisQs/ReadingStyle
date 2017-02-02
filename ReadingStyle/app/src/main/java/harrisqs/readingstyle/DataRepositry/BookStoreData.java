@@ -15,6 +15,9 @@ public class BookStoreData
     private ArrayList<String> addrDataset;
     private ArrayList<String> timeDataset;
     private ArrayList<String> ImageDataset;
+    private ArrayList<String> IntroDataset;
+    private ArrayList<String> phoneDataset;
+    private ArrayList<String> arriveWayDataset;
 
     public void setNameDataset(ArrayList<String> passNameDataset)
     {
@@ -57,13 +60,43 @@ public class BookStoreData
         return timeDataset;
     }
     public void setImageDataset(ArrayList<String> passImageDataset)
-    {
-        ImageDataset = new ArrayList<String>();
-        for (int i = 0 ; i < passImageDataset.size() ; i ++)
-            ImageDataset.add(i, passImageDataset.get(i));
-    }
+{
+    ImageDataset = new ArrayList<String>();
+    for (int i = 0 ; i < passImageDataset.size() ; i ++)
+        ImageDataset.add(i, passImageDataset.get(i));
+}
     public ArrayList<String> getImageDataset()
     {
         return ImageDataset;
+    }
+    public void setIntroDataset(ArrayList<String> passIntroDataset)
+    {
+        IntroDataset = new ArrayList<String>();
+        for (int i = 0 ; i < passIntroDataset.size() ; i ++)
+            IntroDataset.add(i, passIntroDataset.get(i));
+    }
+    public ArrayList<String> getIntroDataset()
+    {
+        return IntroDataset;
+    }
+    public void setphoneDataset(ArrayList<String> passphoneDataset)
+    {
+        phoneDataset = new ArrayList<String>();
+        for (int i = 0 ; i < passphoneDataset.size() ; i ++)
+            phoneDataset.add(i, passphoneDataset.get(i));
+    }
+    public ArrayList<String> getphoneDataset()
+    {
+        return phoneDataset;
+    }
+    public void setarriveWayDataset(ArrayList<String> passarriveWayDataset)
+    {
+        arriveWayDataset = new ArrayList<String>();
+        for (int i = 0 ; i < passarriveWayDataset.size() ; i ++)
+            arriveWayDataset.add(i, passarriveWayDataset.get(i));
+    }
+    public ArrayList<String> getarriveWayDataset()
+    {
+        return arriveWayDataset;
     }
 }
