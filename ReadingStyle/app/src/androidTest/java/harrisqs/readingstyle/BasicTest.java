@@ -23,7 +23,7 @@ public class BasicTest extends ActivityInstrumentationTestCase2<MainActivity>
     }
     public void testBasicRun() throws Exception
     {
-
+        wait(5000);
     }
 
     public void test背景下載書店資料() throws Exception

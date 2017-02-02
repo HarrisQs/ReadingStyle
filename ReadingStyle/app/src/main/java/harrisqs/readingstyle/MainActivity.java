@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
+import com.jaeger.library.StatusBarUtil;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarUtil.setColor(MainActivity.this, 0x6C4113);
         defaultSettingOfToolbar();
         defaultSettingOfDrawerLayout();
         defaultSettingOfStartApplication();

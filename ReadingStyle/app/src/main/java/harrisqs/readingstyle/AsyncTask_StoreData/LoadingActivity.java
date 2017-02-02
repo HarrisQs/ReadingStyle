@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.jaeger.library.StatusBarUtil;
+
+import harrisqs.readingstyle.MainActivity;
 import harrisqs.readingstyle.R;
 
 public class LoadingActivity extends AppCompatActivity
@@ -16,6 +19,7 @@ public class LoadingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
         spinbar = (ProgressBar) findViewById(R.id.progressBar_Loading);
+        StatusBarUtil.setColor(LoadingActivity.this, 0x6C4113);
         new BackgroundStoreData(this, spinbar).execute();
     }
 }

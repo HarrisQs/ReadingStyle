@@ -87,9 +87,9 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         do
         {
             nameTemp.add(dataCursor.getString(1));
-            cityTemp.add(dataCursor.getString(4));
             addrTemp.add(dataCursor.getString(3));
-            timeTemp.add(dataCursor.getString(5));
+            cityTemp.add(dataCursor.getString(5));
+            timeTemp.add(dataCursor.getString(6));
             ImageTemp.add(dataCursor.getString(12));
         }while (dataCursor.moveToNext());
     }

@@ -84,8 +84,7 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return storeNameArray.size();
     }
 }
