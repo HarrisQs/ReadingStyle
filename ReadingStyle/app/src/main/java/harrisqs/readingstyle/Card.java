@@ -99,6 +99,10 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
             public void onClick(View v)
             {
                 Log.e("asd", String.valueOf(position));
+                Log.e("asd", storeNameArray.get(position));
+                Log.e("asd", introArray.get(position));
+                Log.e("asd", cityNameArray.get(position));
+                Log.e("asd", addressArray.get(position));
                 Toast.makeText(mActivity, holder.storeTitle.getText()+" pressed", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mActivity, StoreInfoActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

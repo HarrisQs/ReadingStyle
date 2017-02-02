@@ -67,21 +67,20 @@ public class DBHelper extends SQLiteOpenHelper
                              "phone", "email", "facebook", "website", "arriveWay", "representImage",
                              "longitude", "latitude" };
         ContentValues values = new ContentValues(13);
-        try
+        for (int i = 0; i < 13; i++)
         {
-
-            for (int i = 0; i < 13; i++)
+            try
             {
-                if(storeDetailData.getString(fieldName[i]) == null || storeDetailData.getString(fieldName[i]) == "null"
-                    || storeDetailData.getString(fieldName[i]) == "")
+                if(storeDetailData.getString(fieldName[i]) == null || storeDetailData.getString(fieldName[i]) == "null" || storeDetailData.getString(fieldName[i]) == "")
                     values.put(fieldName[i], "無");
                 else
                     values.put(fieldName[i], storeDetailData.getString(fieldName[i]));
             }
-        }
-        catch(JSONException e)
-        {
-            Log.e("JSONException SQLHelper", e.getMessage());
+            catch(JSONException e)
+            {
+                Log.e("JSONException SQLHelper", e.getMessage());
+                values.put(fieldName[i], "無");
+            }
         }
         dbController.insert(bookStoreTableName, null, values);
     }
