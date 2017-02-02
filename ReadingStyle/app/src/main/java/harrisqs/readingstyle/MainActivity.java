@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.jaeger.library.StatusBarUtil;
 
+import harrisqs.readingstyle.BookCard.Card;
+
 
 public class MainActivity extends AppCompatActivity {
 

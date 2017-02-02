@@ -1,10 +1,9 @@
-package harrisqs.readingstyle;
+package harrisqs.readingstyle.BookCard;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import harrisqs.readingstyle.R;
 
 /**
  * Created by HarrisQs on 2017/1/23.
@@ -98,11 +99,6 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
             @Override
             public void onClick(View v)
             {
-                Log.e("asd", String.valueOf(position));
-                Log.e("asd", storeNameArray.get(position));
-                Log.e("asd", introArray.get(position));
-                Log.e("asd", cityNameArray.get(position));
-                Log.e("asd", addressArray.get(position));
                 Toast.makeText(mActivity, holder.storeTitle.getText()+" pressed", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mActivity, StoreInfoActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

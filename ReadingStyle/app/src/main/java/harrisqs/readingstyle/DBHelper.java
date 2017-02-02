@@ -78,7 +78,6 @@ public class DBHelper extends SQLiteOpenHelper
             }
             catch(JSONException e)
             {
-                Log.e("JSONException SQLHelper", e.getMessage());
                 values.put(fieldName[i], "無");
             }
         }

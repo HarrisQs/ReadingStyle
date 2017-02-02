@@ -27,14 +27,14 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_above="@+id/progressBar_Loading"
-        android:layout_alignStart="@+id/titl"
+        android:layout_alignStart="@+id/title"
         android:layout_marginBottom="15dp" />
 
     <TextView
         android:text="Welcome!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titl"
+        android:id="@+id/title"
         android:textSize="35dp"
         android:textColor="#ffffff"
         android:layout_above="@+id/imageView2"

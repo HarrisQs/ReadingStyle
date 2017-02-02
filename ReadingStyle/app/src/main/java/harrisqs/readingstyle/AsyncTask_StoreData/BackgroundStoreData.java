@@ -60,7 +60,6 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
     {
         new StoreDataToSQLite(mParentActivity);
         convertDatatoArrayList();
-        Log.e("jjj", String.valueOf(IntroTemp.size()));
         setData.setBookStoreCardName(nameTemp);
         setData.setBookStoreCardCity(cityTemp);
         setData.setBookStoreCardAddr(addrTemp);

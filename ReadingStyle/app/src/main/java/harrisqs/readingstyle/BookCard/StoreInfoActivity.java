@@ -1,4 +1,4 @@
-package harrisqs.readingstyle;
+package harrisqs.readingstyle.BookCard;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,6 +24,9 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import harrisqs.readingstyle.DBHelper;
+import harrisqs.readingstyle.R;
 
 public class StoreInfoActivity extends AppCompatActivity {
 
