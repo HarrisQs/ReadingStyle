@@ -37,29 +37,26 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     private ViewFlipper bookStorePlayer;
     private SignInButton googleLoginButton;
     private Button guestButton;
-
-    private GoogleApiClient googleApiClient;    // 建立用戶端
-    private GoogleSignInOptions signInOptions;  //
+    private GoogleApiClient googleClient;    // 建立用戶端
+    private GoogleSignInOptions signInGoogleOptions;  //
     private static final int REQUEST_CODE = 100;// unknown
     private boolean isFirst = true;             // 第一次登入嗎?
-
-    String name;
-    String email;
-    String id;
-    Uri photoUri;
-    String photoString;
+    //google account info
+    private String name;
+    private String email;
+    private String id;
+    private Uri photoUri;
+    private String photoString;
 
     private static Boolean isExit = false;
     private static Boolean hasTask = false;
-
-    // Databases
-    private DBHelper profile = null;
 
     // 自動播放圖片(目前10張)
     private int[] bookStorePic = {R.drawable.a01, R.drawable.a02, R.drawable.a03, R.drawable.a04, R.drawable.a05, R.drawable.a06, R.drawable.a07, R.drawable.a08, R.drawable.a09, R.drawable.a10};
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         StatusBarUtil.setTransparent(SignIn.this);
@@ -67,76 +64,24 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         defaultSettingOfTitle();
         defaultSettingOfLogo();
         defaultSettingOfPicturePlayer();
+        defaultSettingOfGoogleButton();
+        defaultSettingOfGuestButton();
+    }
 
-        
-        googleLoginButton = (SignInButton) findViewById(R.id.googleSignIn_button);
-        guestButton = (Button) findViewById(R.id.guest);
-        //
-
-
-
-        signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions)
-                .addApi(Plus.API) // for google plus
-                .build();
-
-        googleLoginButton.setSize(SignInButton.SIZE_WIDE);
-        googleLoginButton.setScopes(signInOptions.getScopeArray());
-
-        // [START googleLogIn]
-        googleLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(signInIntent,REQUEST_CODE);
-            }
-        });
-        // [END googleLogIn]
-
-        // [START guestLogIn]
-        guestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "訪客登入", Toast.LENGTH_SHORT).show();
-
-                // 進入下一個activity
-                Intent intent = new Intent();
-                intent.setClass(SignIn.this, MainActivity.class);
-                intent.putExtra("id", 0);
-                startActivity(intent);
-                SignIn.this.finish();
-            }
-        });
-        // [END guestLogIn]
-
-    } // [END onCreate]
-
-    // [START onActivityResult] 登入google後
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE) {
-
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            GoogleSignInAccount account = result.getSignInAccount();
+        if(requestCode == REQUEST_CODE)
+        {
+            GoogleSignInAccount account =  Auth.GoogleSignInApi.getSignInResultFromIntent(data).getSignInAccount();
 
             name = account.getDisplayName(); // 姓名
             email = account.getEmail();      // 信箱
             id = account.getId();            // *使用id來記錄, 辨識user
-            Uri photoImage = account.getPhotoUrl(); // 個人相片
-            photoString = String.valueOf(photoImage);
-
-            // 存進資料庫
-            profile = new DBHelper(this);
-            SQLiteDatabase db = profile.getWritableDatabase();
-            //profile.addInProfile(id, name, email, photoString, db);
-            //
+            photoUri = account.getPhotoUrl(); // 個人相片
+            photoString = String.valueOf(photoUri);
 
             // 設定檔, 下次開啟會跳過此activity
             saveSetting();
@@ -144,9 +89,6 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
             // 傳送個人資訊, 進入下一個activity
             Intent intent = new Intent();
             intent.setClass(SignIn.this, MainActivity.class);
-
-            //Toast.makeText(this.getApplicationContext(), name, Toast.LENGTH_SHORT).show();
-
             intent.putExtra("name", name);
             intent.putExtra("email", email);
             intent.putExtra("id", id);
@@ -154,20 +96,15 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
 
             startActivity(intent);
             SignIn.this.finish();
-
-            // for google plus
-            //Person person = Plus.PeopleApi.getCurrentPerson(googleApiClient);
         }
     } // [END onActivityResult]
 
-    // [START getImageView]
-    private ImageView getImageView(int resId){
-
+    private ImageView getImageView(int resId)
+    {
         ImageView image = new ImageView(this);
         image.setBackgroundResource(resId);
         return image;
-
-    } // [END getImageView]
+    }
 
     // [START saveSetting] 存設定狀態
     private void saveSetting() {
@@ -230,9 +167,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
-    {
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
     private void defaultSettingOfTitle()
     {
         mainTitle = (TextView) findViewById(R.id.mainTitle);
@@ -258,6 +193,48 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         bookStorePlayer.setOutAnimation(this, R.anim.left_out);   // 離開的動畫
         bookStorePlayer.setFlipInterval(3000);                    // 間隔3秒
         bookStorePlayer.startFlipping();                          // 開始自動播放
+    }
+    private void defaultSettingOfGoogleButton()
+    {
+        signInGoogleOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,signInGoogleOptions)
+                .addApi(Plus.API) // for google plus
+                .build();
+        googleLoginButton = (SignInButton) findViewById(R.id.googleSignIn_button);
+        googleLoginButton.setSize(SignInButton.SIZE_WIDE);
+        googleLoginButton.setScopes(signInGoogleOptions.getScopeArray());
+
+        // [START googleLogIn]
+        googleLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleClient);
+                startActivityForResult(signInIntent,REQUEST_CODE);
+            }
+        });
+    }
+    private void defaultSettingOfGuestButton()
+    {
+        guestButton = (Button) findViewById(R.id.guest);
+        guestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "訪客登入", Toast.LENGTH_SHORT).show();
+
+                // 進入下一個activity
+                Intent intent = new Intent();
+                intent.setClass(SignIn.this, MainActivity.class);
+                intent.putExtra("id", 0);
+                startActivity(intent);
+                SignIn.this.finish();
+            }
+        });
+
     }
 }
 

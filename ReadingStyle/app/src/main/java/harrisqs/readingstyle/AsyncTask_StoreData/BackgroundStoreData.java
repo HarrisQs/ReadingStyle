@@ -83,11 +83,8 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
     {
         super.onPostExecute(result);
         Toast.makeText(mParentActivity, "更新完成", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent();
-        intent.setClass(mParentActivity, MainActivity.class);
-        mParentActivity.startActivity(intent);
-        mParentActivity.finish();
         mParentActivity.startActivity(new Intent().setClass(mParentActivity, SignIn.class));
+        mParentActivity.finish();
     }
     private void convertDatatoArrayList()
     {

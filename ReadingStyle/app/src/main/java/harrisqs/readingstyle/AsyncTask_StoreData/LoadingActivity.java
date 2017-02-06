@@ -16,7 +16,8 @@ public class LoadingActivity extends AppCompatActivity
     private TextView mTitle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
         spinbar = (ProgressBar) findViewById(R.id.progressBar_Loading);
