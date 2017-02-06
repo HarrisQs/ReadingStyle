@@ -2,7 +2,6 @@ package harrisqs.readingstyle;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -19,7 +18,6 @@ import android.widget.ViewFlipper;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -48,11 +46,8 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     private Uri photoUri;
     private String photoString;
 
-    private static Boolean isExit = false;
-    private static Boolean hasTask = false;
-
-    // 自動播放圖片(目前10張)
-    private int[] bookStorePic = {R.drawable.a01, R.drawable.a02, R.drawable.a03, R.drawable.a04, R.drawable.a05, R.drawable.a06, R.drawable.a07, R.drawable.a08, R.drawable.a09, R.drawable.a10};
+    private Boolean isExit = false;
+    private Boolean hasTask = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,7 +70,8 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
 
         if(requestCode == REQUEST_CODE)
         {
-            GoogleSignInAccount account =  Auth.GoogleSignInApi.getSignInResultFromIntent(data).getSignInAccount();
+            GoogleSignInAccount account =  Auth.GoogleSignInApi.getSignInResultFromIntent(data).
+                    getSignInAccount();
 
             name = account.getDisplayName(); // 姓名
             email = account.getEmail();      // 信箱
@@ -93,11 +89,10 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
             intent.putExtra("email", email);
             intent.putExtra("id", id);
             intent.putExtra("photoString", photoString);
-
             startActivity(intent);
-            SignIn.this.finish();
+            this.finish();
         }
-    } // [END onActivityResult]
+    }
 
     private ImageView getImageView(int resId)
     {
@@ -106,8 +101,8 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         return image;
     }
 
-    // [START saveSetting] 存設定狀態
-    private void saveSetting() {
+    private void saveSetting()
+    {
         SharedPreferences setting = getSharedPreferences("profile_info", 0);
         setting.edit().putBoolean("isFirst", false).commit();
         setting.edit().putString("id", null).commit();
@@ -117,7 +112,8 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     } // [END saveSetting]
 
     // [START readSetting] 讀取設定狀態
-    private void readSetting() {
+    private void readSetting()
+    {
         SharedPreferences setting = getSharedPreferences("profile_info", 0);
         boolean isFirst = setting.getBoolean("isFirst", true);
         //String id = setting.getString("id", "0");
@@ -133,24 +129,24 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
             SignIn.this.finish();
 
         }
-    } // [END readSetting]
+    }
 
-    Timer timerExit = new Timer();
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            isExit = false;
-            hasTask = true;
-        }
-    };
-
-    // 按虛擬按鍵
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        Timer timerExit = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                isExit = false;
+                hasTask = true;
+            }
+        };
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
             // 是否要退出
-            if(isExit == false) {
+            if(isExit == false)
+            {
 
                 isExit = true;
                 Toast.makeText(this, "再按一次離開", Toast.LENGTH_SHORT).show();
@@ -168,6 +164,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
+
     private void defaultSettingOfTitle()
     {
         mainTitle = (TextView) findViewById(R.id.mainTitle);
@@ -179,13 +176,17 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         mainTitle.setTypeface(mainType);
         subTitle.setTypeface(subType);
     }
+
     private void defaultSettingOfLogo()
     {
         appLogo = (ImageView) findViewById(R.id.iconImage);
         appLogo.setImageResource(R.drawable.icon);
     }
+
     private void defaultSettingOfPicturePlayer()
     {
+        int[] bookStorePic = {R.drawable.a01, R.drawable.a02, R.drawable.a03, R.drawable.a04, R.drawable.a05,
+                R.drawable.a06, R.drawable.a07, R.drawable.a08, R.drawable.a09, R.drawable.a10};
         bookStorePlayer = (ViewFlipper) findViewById(R.id.flipper);
         for(int i = 0; i < bookStorePic.length; i++)
             bookStorePlayer.addView(getImageView(bookStorePic[i]));
@@ -194,6 +195,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         bookStorePlayer.setFlipInterval(3000);                    // 間隔3秒
         bookStorePlayer.startFlipping();                          // 開始自動播放
     }
+
     private void defaultSettingOfGoogleButton()
     {
         signInGoogleOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -218,6 +220,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
             }
         });
     }
+
     private void defaultSettingOfGuestButton()
     {
         guestButton = (Button) findViewById(R.id.guest);
