@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import harrisqs.readingstyle.DBHelper;
+import harrisqs.readingstyle.SignIn;
 import harrisqs.readingstyle.StarterApplication;
 import harrisqs.readingstyle.MainActivity;
 
@@ -86,6 +87,7 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         intent.setClass(mParentActivity, MainActivity.class);
         mParentActivity.startActivity(intent);
         mParentActivity.finish();
+        mParentActivity.startActivity(new Intent().setClass(mParentActivity, SignIn.class));
     }
     private void convertDatatoArrayList()
     {

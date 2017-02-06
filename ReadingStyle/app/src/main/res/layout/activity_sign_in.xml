@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:context="com.example.user.readworld.SignIn"
+    tools:context="harrisqs.readingstyle.SignIn"
     android:background="@drawable/cover"
     android:fitsSystemWindows="false">
 
@@ -42,17 +42,6 @@
         android:layout_below="@+id/subTitle"
         android:layout_centerHorizontal="true" />
 
-    <ViewFlipper
-        android:layout_width="match_parent"
-        android:id="@+id/flipper"
-        android:layout_height="270sp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:layout_below="@+id/iconImage"
-        android:layout_above="@+id/googleSignIn_button"
-        android:layout_alignParentStart="true">
-    </ViewFlipper>
-
     <Button
         android:text="訪客登入"
         android:layout_marginBottom="25dp"
@@ -74,5 +63,14 @@
         android:layout_alignStart="@+id/guest"
         android:layout_height="55dp">
     </com.google.android.gms.common.SignInButton>
+
+    <ViewFlipper
+        android:layout_width="match_parent"
+        android:id="@+id/flipper"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/googleSignIn_button"
+        android:layout_alignParentEnd="true"
+        android:layout_height="220sp">
+    </ViewFlipper>
 
 </RelativeLayout>

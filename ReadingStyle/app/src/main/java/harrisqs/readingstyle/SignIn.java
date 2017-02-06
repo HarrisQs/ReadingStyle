@@ -1,12 +1,10 @@
 package harrisqs.readingstyle;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.service.notification.StatusBarNotification;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,12 +31,12 @@ import java.util.TimerTask;
 
 public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private TextView maintitle;                 // app 標題
-    private TextView subtitle;                  // app 副標題
-    private ImageView iconimage;                // app icon
-    private ViewFlipper f;                      // 圖片自動播放
-    private SignInButton googleLogin;           // google登入button
-    private Button guestButton;                 // 訪客登入button
+    private TextView mainTitle;
+    private TextView subTitle;
+    private ImageView appLogo;
+    private ViewFlipper bookStorePlayer;
+    private SignInButton googleLoginButton;
+    private Button guestButton;
 
     private GoogleApiClient googleApiClient;    // 建立用戶端
     private GoogleSignInOptions signInOptions;  //
@@ -58,48 +56,24 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     private DBHelper profile = null;
 
     // 自動播放圖片(目前10張)
-    private int[] resid = {R.drawable.a01, R.drawable.a02, R.drawable.a03, R.drawable.a04, R.drawable.a05, R.drawable.a06, R.drawable.a07, R.drawable.a08, R.drawable.a09, R.drawable.a10};
+    private int[] bookStorePic = {R.drawable.a01, R.drawable.a02, R.drawable.a03, R.drawable.a04, R.drawable.a05, R.drawable.a06, R.drawable.a07, R.drawable.a08, R.drawable.a09, R.drawable.a10};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-
         StatusBarUtil.setTransparent(SignIn.this);
-
         readSetting();
+        defaultSettingOfTitle();
+        defaultSettingOfLogo();
+        defaultSettingOfPicturePlayer();
 
-        // 物件初始化
-        maintitle = (TextView) findViewById(R.id.mainTitle);
-        subtitle = (TextView) findViewById(R.id.subTitle);
-        iconimage = (ImageView) findViewById(R.id.iconImage);
-        f = (ViewFlipper) findViewById(flipper);
-        googleLogin = (SignInButton) findViewById(R.id.googleSignIn_button);
+        
+        googleLoginButton = (SignInButton) findViewById(R.id.googleSignIn_button);
         guestButton = (Button) findViewById(R.id.guest);
         //
 
-        // 建立字體
-        Typeface mainType = Typeface.createFromAsset(getAssets(),"fonts/HPSimplified_Bd.ttf");
-        Typeface subType = Typeface.createFromAsset(getAssets(),"fonts/HPSimplified.ttf");
-        //
 
-        // 設定標題和副標題的字體
-        maintitle.setTypeface(mainType);
-        subtitle.setTypeface(subType);
-
-        // 設定icon
-        iconimage.setImageResource(R.drawable.icon);
-
-        // 把resid中的圖片加入viewFlipper中
-        for(int i = 0; i < resid.length; i++) {
-            f.addView(getImageView(resid[i]));
-        }
-
-        f.setInAnimation(this, R.anim.left_in);     // 進來的動畫
-        f.setOutAnimation(this, R.anim.left_out);   // 離開的動畫
-        f.setFlipInterval(3000);                    // 間隔3秒
-        f.startFlipping();                          // 開始自動播放
-        //f.stopFlipping();                           // 停止自動播放
 
         signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -111,11 +85,11 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
                 .addApi(Plus.API) // for google plus
                 .build();
 
-        googleLogin.setSize(SignInButton.SIZE_WIDE);
-        googleLogin.setScopes(signInOptions.getScopeArray());
+        googleLoginButton.setSize(SignInButton.SIZE_WIDE);
+        googleLoginButton.setScopes(signInOptions.getScopeArray());
 
         // [START googleLogIn]
-        googleLogin.setOnClickListener(new View.OnClickListener() {
+        googleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
@@ -161,7 +135,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
             // 存進資料庫
             profile = new DBHelper(this);
             SQLiteDatabase db = profile.getWritableDatabase();
-            profile.addInProfile(id, name, email, photoString, db);
+            //profile.addInProfile(id, name, email, photoString, db);
             //
 
             // 設定檔, 下次開啟會跳過此activity
@@ -256,6 +230,34 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+    {
+    }
+    private void defaultSettingOfTitle()
+    {
+        mainTitle = (TextView) findViewById(R.id.mainTitle);
+        subTitle = (TextView) findViewById(R.id.subTitle);
+        // 建立字體
+        Typeface mainType = Typeface.createFromAsset(getAssets(),"fonts/HPSimplified_Bd.ttf");
+        Typeface subType = Typeface.createFromAsset(getAssets(),"fonts/HPSimplified.ttf");
+        // 設定標題和副標題的字體
+        mainTitle.setTypeface(mainType);
+        subTitle.setTypeface(subType);
+    }
+    private void defaultSettingOfLogo()
+    {
+        appLogo = (ImageView) findViewById(R.id.iconImage);
+        appLogo.setImageResource(R.drawable.icon);
+    }
+    private void defaultSettingOfPicturePlayer()
+    {
+        bookStorePlayer = (ViewFlipper) findViewById(R.id.flipper);
+        for(int i = 0; i < bookStorePic.length; i++)
+            bookStorePlayer.addView(getImageView(bookStorePic[i]));
+        bookStorePlayer.setInAnimation(this, R.anim.left_in);     // 進來的動畫
+        bookStorePlayer.setOutAnimation(this, R.anim.left_out);   // 離開的動畫
+        bookStorePlayer.setFlipInterval(3000);                    // 間隔3秒
+        bookStorePlayer.startFlipping();                          // 開始自動播放
     }
 }
+
