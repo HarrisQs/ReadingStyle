@@ -2,6 +2,7 @@ package harrisqs.readingstyle;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.AlignmentSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +35,8 @@ import java.util.TimerTask;
 
 import harrisqs.readingstyle.BookCard.Card;
 
+import static harrisqs.readingstyle.R.drawable.about;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView nameOrGuest;               // 有登入顯示姓名, 否則顯示 "訪客"
     private TextView emailOrSignIn;             // 有登入顯示email, 否則顯示 "點這裡登入"
     private ImageView profilePic;               // 頭像;
+    private TextView about;                     // 關於
 
     // for google user information, google登入後的資訊
     private String userName;                    // 使用者姓名
@@ -58,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
         defaultSettingOfGoogleOrGuest();
         defaultSettingOfStartApplication();
         defaultSettingOfRecycle();
+        defaultSettingOfOtherUI();
+    }
+
+    private void defaultSettingOfOtherUI()
+    {
+        about = new TextView(this);
     }
 
     // 儲存user資料
@@ -120,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.about:
                         mToolbar.setTitle(R.string.about);
                         menuItem.setChecked(true);
-                        //about();
+                        aboutUs();
                         break;
                     case R.id.info:
                         mToolbar.setTitle(R.string.info);
@@ -260,5 +277,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    // 關於我們
+    private void aboutUs() {
+        // 先移除所有的動態view
+        linearLayout.removeView(recycle);
+
+        String text = "\n\n\n開發成員 : \n\n陳亮宇\n張弘瑜\n鍾羽函\n蘇柏丞\n謝宣緯\n\n\n\n\t資料來源 : 行政院文化局";
+        SpannableString spannable = new SpannableString(text);
+        spannable.setSpan(new AbsoluteSizeSpan(80), 0, text.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        spannable.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#FF533210")), 0, text.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
+        spannable.setSpan(new AbsoluteSizeSpan(100), 3, 7, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        spannable.setSpan(new AbsoluteSizeSpan(100), 36, 40, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
+        about.setText(spannable);
+        linearLayout.addView(about);
+
     }
 }
