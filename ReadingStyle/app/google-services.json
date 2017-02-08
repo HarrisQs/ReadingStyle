@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "192804334750",
+    "project_id": "readingstyle-158002"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192804334750:android:86fde73839825331",
+        "android_client_info": {
+          "package_name": "harrisqs.readingstyle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192804334750-n8q93o4chvicj1sed0n9nv3b2hvcmuq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNV3PcSgF7kiWk0Bk_NmkPOJYwP83al_g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

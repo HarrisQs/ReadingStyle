@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView emailOrSignIn;             // 有登入顯示email, 否則顯示 "點這裡登入"
     private ImageView profilePic;               // 頭像;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         StatusBarUtil.setColor(MainActivity.this, 0x6C4113);
