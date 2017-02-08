@@ -38,7 +38,6 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     private GoogleApiClient googleClient;    // 建立用戶端
     private GoogleSignInOptions signInGoogleOptions;  //
     private static final int REQUEST_CODE = 100;// unknown
-    private boolean isFirst = true;             // 第一次登入嗎?
     //google account info
     private String name;
     private String email;
@@ -98,7 +97,6 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     {
         SharedPreferences setting = getSharedPreferences("profile_info", 0);
         boolean isFirst = setting.getBoolean("isFirst", true);
-        Log.e("IsFirst", String.valueOf(isFirst));
         if(!isFirst)
         {
             Intent intent = new Intent();

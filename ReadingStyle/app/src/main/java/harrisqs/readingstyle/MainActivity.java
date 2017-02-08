@@ -3,7 +3,6 @@ package harrisqs.readingstyle;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,24 +34,22 @@ import java.util.TimerTask;
 
 import harrisqs.readingstyle.BookCard.Card;
 
-import static harrisqs.readingstyle.R.drawable.about;
-
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private StarterApplication getData;
-    private RecyclerView recycle; // 卡片要裝進這個view來顯示
+    private RecyclerView bookStoreCard; // 卡片要裝進這個view來顯示
     private LinearLayout linearLayout;// 外面大框框 (從這個view丟進去)
     private TextView nameOrGuest;               // 有登入顯示姓名, 否則顯示 "訪客"
     private TextView emailOrSignIn;             // 有登入顯示email, 否則顯示 "點這裡登入"
     private ImageView profilePic;               // 頭像;
-    private TextView about;                     // 關於
+    private TextView aboutOrExplain;            // 關於
 
     // for google user information, google登入後的資訊
     private String userName;                    // 使用者姓名
     private String userEmail;                   // 使用者信箱
-    private String id;                          // *使用者id
+    private String id;                          // 使用者id
     private String photoString;                 // 使用者頭貼(string)
 
     private Boolean isExit = false;
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void defaultSettingOfOtherUI()
     {
-        about = new TextView(this);
+        aboutOrExplain = new TextView(this);
     }
 
     // 儲存user資料
@@ -121,10 +118,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.overview:
                         mToolbar.setTitle(R.string.overview);
                         menuItem.setChecked(true);
-                        //overview();
+                        overview();
                         break;
                     case R.id.map:
-                        //toolbar.setTitle(R.string.map);
+                        mToolbar.setTitle(R.string.map);
                         menuItem.setChecked(false);
                         menuItem.setCheckable(false);
                         //map();
@@ -142,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.info:
                         mToolbar.setTitle(R.string.info);
                         menuItem.setChecked(true);
-                        //info();
+                        info();
                         break;
                     case R.id.signOut:
                         mToolbar.setTitle(R.string.signOut);
@@ -214,16 +211,16 @@ public class MainActivity extends AppCompatActivity {
     private void defaultSettingOfRecycle()
     {
         linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
-        recycle = new RecyclerView(this);
+        bookStoreCard = new RecyclerView(this);
         Card myAdapter = new Card(this, getData.getBookStoreCardName(), getData.getBookStoreCardCity(),
                 getData.getBookStoreCardAddr(), getData.getBookStoreCardTime(),
                 getData.getBookStoreCardImage(),getData.getBookStoreCardphone(),
                 getData.getBookStoreCardarriveWay(),getData.getBookStoreCardIntro());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycle.setLayoutManager(layoutManager);
-        recycle.setAdapter(myAdapter);
-        linearLayout.addView(recycle);
+        bookStoreCard.setLayoutManager(layoutManager);
+        bookStoreCard.setAdapter(myAdapter);
+        linearLayout.addView(bookStoreCard);
     }
 
     // 登出
@@ -282,19 +279,42 @@ public class MainActivity extends AppCompatActivity {
     // 關於我們
     private void aboutUs() {
         // 先移除所有的動態view
-        linearLayout.removeView(recycle);
+        linearLayout.removeView(bookStoreCard);
+        linearLayout.removeView(aboutOrExplain);
 
-        String text = "\n\n\n開發成員 : \n\n陳亮宇\n張弘瑜\n鍾羽函\n蘇柏丞\n謝宣緯\n\n\n\n\t資料來源 : 行政院文化局";
+        String text = "\n 開發成員 : \n\n陳亮宇\n張弘瑜\n鍾羽函\n蘇柏丞\n謝宣緯\n\n\t資料來源 : 行政院文化局";
         SpannableString spannable = new SpannableString(text);
-        spannable.setSpan(new AbsoluteSizeSpan(80), 0, text.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        spannable.setSpan(new AbsoluteSizeSpan(70), 0, text.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         spannable.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#FF533210")), 0, text.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 
-        spannable.setSpan(new AbsoluteSizeSpan(100), 3, 7, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        spannable.setSpan(new AbsoluteSizeSpan(100), 36, 40, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        aboutOrExplain.setText(spannable);
+        linearLayout.addView(aboutOrExplain);
+    }
 
-        about.setText(spannable);
-        linearLayout.addView(about);
+    // 說明
+    private void info() {
+        // 先移除所有的動態view
+        linearLayout.removeView(bookStoreCard);
+        linearLayout.removeView(aboutOrExplain);
 
+        String text = "\n\n    這是一個彙整台灣獨立書店的app，資料取自文化局的開放資源，主要目的在於提供沒接觸過或是剛接觸獨立書店的民眾，可以找尋到自己生活周遭哪裡有獨立書店，該如何拜訪、參觀，並且了解各個獨立店家的特色";
+        SpannableString spannable = new SpannableString(text);
+        spannable.setSpan(new AbsoluteSizeSpan(65), 0, text.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        spannable.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_NORMAL), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#FF533210")), 0, text.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
+        aboutOrExplain.setText(spannable);
+        linearLayout.addView(aboutOrExplain);
+    }
+
+    // 總覽
+    private void overview() {
+        // 先移除所有的動態view
+        linearLayout.removeView(bookStoreCard);   // overview
+        linearLayout.removeView(aboutOrExplain);
+
+        // 再新增自己的view
+        linearLayout.addView(bookStoreCard);
     }
 }
