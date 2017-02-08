@@ -70,19 +70,16 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         {
             GoogleSignInAccount account =  Auth.GoogleSignInApi.getSignInResultFromIntent(data).
                     getSignInAccount();
-            Log.e("aopsd", String.valueOf(account.getDisplayName()));
             name = account.getDisplayName(); // 姓名
             email = account.getEmail();      // 信箱
             id = account.getId();            // *使用id來記錄, 辨識user
             photoString = String.valueOf(account.getPhotoUrl());
-            // 設定檔, 下次開啟會跳過此activity
-            saveSetting();
             // 傳送個人資訊, 進入下一個activity
             Intent intent = new Intent();
             intent.setClass(SignIn.this, MainActivity.class);
+            intent.putExtra("id", id);
             intent.putExtra("name", name);
             intent.putExtra("email", email);
-            intent.putExtra("id", id);
             intent.putExtra("photoString", photoString);
             startActivity(intent);
             this.finish();
@@ -96,31 +93,19 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         return image;
     }
 
-    private void saveSetting()
-    {
-        SharedPreferences setting = getSharedPreferences("profile_info", 0);
-        setting.edit().putBoolean("isFirst", false).commit();
-        setting.edit().putString("id", null).commit();
-        setting.edit().putString("name", null).commit();
-        setting.edit().putString("email", null).commit();
-        setting.edit().putString("photoUri", null).commit();
-    } // [END saveSetting]
-
     // [START readSetting] 讀取設定狀態
     private void readSetting()
     {
         SharedPreferences setting = getSharedPreferences("profile_info", 0);
         boolean isFirst = setting.getBoolean("isFirst", true);
+        Log.e("IsFirst", String.valueOf(isFirst));
         if(!isFirst)
         {
             Intent intent = new Intent();
-            intent.putExtra("name", name);
-            intent.putExtra("email", email);
             intent.putExtra("id", id);
-            intent.putExtra("photoString", photoString);
             intent.setClass(SignIn.this, MainActivity.class);
             startActivity(intent);
-            SignIn.this.finish();
+            this.finish();
         }
     }
 
