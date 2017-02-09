@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         mToolbar.setTitle(R.string.map);
                         menuItem.setChecked(false);
                         menuItem.setCheckable(false);
-                        //map();
+                        map();
                         break;
                     case R.id.myFavorites:
                         mToolbar.setTitle(R.string.myFavorites);
@@ -277,7 +277,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 關於我們
-    private void aboutUs() {
+    private void aboutUs()
+    {
         // 先移除所有的動態view
         linearLayout.removeView(bookStoreCard);
         linearLayout.removeView(aboutOrExplain);
@@ -293,7 +294,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 說明
-    private void info() {
+    private void info()
+    {
         // 先移除所有的動態view
         linearLayout.removeView(bookStoreCard);
         linearLayout.removeView(aboutOrExplain);
@@ -309,12 +311,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 總覽
-    private void overview() {
+    private void overview()
+    {
         // 先移除所有的動態view
         linearLayout.removeView(bookStoreCard);   // overview
         linearLayout.removeView(aboutOrExplain);
 
         // 再新增自己的view
         linearLayout.addView(bookStoreCard);
+    }
+
+    // 地圖
+    private void map()
+    {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, MapsActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("name", getData.getBookStoreCardName());
+        bundle.putStringArrayList("cityName", getData.getBookStoreCardCity());
+        bundle.putStringArrayList("address", getData.getBookStoreCardAddr());
+        bundle.putStringArrayList("longitude", getData.getBookStoreCardLongitude());
+        bundle.putStringArrayList("latitude", getData.getBookStoreCardLatitude());
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+        overridePendingTransition(R.anim.left_in_2, R.anim.left_out_2);
+
     }
 }

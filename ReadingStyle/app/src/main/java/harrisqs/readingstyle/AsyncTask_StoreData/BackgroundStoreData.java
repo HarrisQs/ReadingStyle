@@ -33,6 +33,8 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
     private ArrayList<String>phoneTemp;
     private ArrayList<String>IntroTemp;
     private ArrayList<String>arriveWayTemp;
+    private ArrayList<String>longitudeTemp;
+    private ArrayList<String>latitudeTemp;
 
     public BackgroundStoreData(Activity passActivity, ProgressBar bar)
     {
@@ -47,6 +49,8 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         phoneTemp = new ArrayList<>();
         IntroTemp = new ArrayList<>();
         arriveWayTemp = new ArrayList<>();
+        longitudeTemp = new ArrayList<>();
+        latitudeTemp = new ArrayList<>();
     }
 
     @Override
@@ -69,6 +73,8 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
         setData.setBookStoreCardphone(phoneTemp);
         setData.setBookStoreCardIntro(IntroTemp);
         setData.setBookStoreCardarriveWay(arriveWayTemp);
+        setData.setBookStoreCardLongitude(longitudeTemp);
+        setData.setBookStoreCardLatitude(latitudeTemp);
         return null;
     }
 
@@ -101,6 +107,9 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
             cityTemp.add(dataCursor.getString(5));
             timeTemp.add(dataCursor.getString(6));
             ImageTemp.add(dataCursor.getString(12));
+            latitudeTemp.add(dataCursor.getString(14));
+            longitudeTemp.add(dataCursor.getString(13));
+            //Log.e("latitudeTemp",dataCursor.getString(14));
         }while (dataCursor.moveToNext());
     }
 }

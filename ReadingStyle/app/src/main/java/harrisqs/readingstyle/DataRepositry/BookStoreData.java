@@ -18,6 +18,10 @@ public class BookStoreData
     private ArrayList<String> IntroDataset;
     private ArrayList<String> phoneDataset;
     private ArrayList<String> arriveWayDataset;
+    private ArrayList<String> longitudeDataset;
+    private ArrayList<String> latitudeDataset;
+    // TODO: 2017/2/8
+
 
     public void setNameDataset(ArrayList<String> passNameDataset)
     {
@@ -60,11 +64,11 @@ public class BookStoreData
         return timeDataset;
     }
     public void setImageDataset(ArrayList<String> passImageDataset)
-{
+    {
     ImageDataset = new ArrayList<String>();
     for (int i = 0 ; i < passImageDataset.size() ; i ++)
         ImageDataset.add(i, passImageDataset.get(i));
-}
+    }
     public ArrayList<String> getImageDataset()
     {
         return ImageDataset;
@@ -98,5 +102,25 @@ public class BookStoreData
     public ArrayList<String> getarriveWayDataset()
     {
         return arriveWayDataset;
+    }
+    public void setlongitudeDataset(ArrayList<String> passlongitudeDataset)
+    {
+        longitudeDataset = new ArrayList<String>();
+        for (int i = 0 ; i < passlongitudeDataset.size() ; i ++)
+            longitudeDataset.add(i, passlongitudeDataset.get(i));
+    }
+    public ArrayList<String> getlongitudeDataset()
+    {
+        return longitudeDataset;
+    }
+    public void setlatitudeDataset(ArrayList<String> passlatitudeDataset)
+    {
+        latitudeDataset = new ArrayList<String>();
+        for (int i = 0 ; i < passlatitudeDataset.size() ; i ++)
+            latitudeDataset.add(i, passlatitudeDataset.get(i));
+    }
+    public ArrayList<String> getlatitudeDataset()
+    {
+        return latitudeDataset;
     }
 }

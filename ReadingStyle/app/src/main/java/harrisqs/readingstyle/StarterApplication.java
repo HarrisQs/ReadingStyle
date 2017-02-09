@@ -90,6 +90,26 @@ public class StarterApplication extends Application {
         return bookStoreData.getphoneDataset();
     }
 
+    public void setBookStoreCardLongitude(ArrayList<String> passlongitudeDataset)
+    {
+        bookStoreData.setlongitudeDataset(passlongitudeDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardLongitude()
+    {
+        return bookStoreData.getlongitudeDataset();
+    }
+
+    public void setBookStoreCardLatitude(ArrayList<String> passlatitudeDataset)
+    {
+        bookStoreData.setlatitudeDataset(passlatitudeDataset);
+    }
+
+    public ArrayList<String> getBookStoreCardLatitude()
+    {
+        return bookStoreData.getlatitudeDataset();
+    }
+
     public void setBookStoreCardarriveWay(ArrayList<String> passarriveWayDataset)
     {
         bookStoreData.setarriveWayDataset(passarriveWayDataset);
