@@ -33,6 +33,7 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
     private List<String> arriveWayArray;
     private List<String> introArray;
     private Activity mActivity;
+    private String mID;
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -55,7 +56,7 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
         }
     }
 
-    public Card(Activity passActivity, List<String> storeNamedata, List<String> cityNamedata,
+    public Card(String id, Activity passActivity, List<String> storeNamedata, List<String> cityNamedata,
                 List<String> addressdata, List<String> businessHoursdata,
                 List<String> Imagedata, List<String> phonedata, List<String> arriveWaydata,
                 List<String> introdata)
@@ -69,6 +70,7 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
         phoneArray = phonedata;
         arriveWayArray = arriveWaydata;
         introArray = introdata;
+        mID = id;
     }
 
     @Override
@@ -112,6 +114,8 @@ public class Card extends RecyclerView.Adapter<Card.ViewHolder>
                 bundle.putString("openTime", businessHoursArray.get(position));
                 bundle.putString("phone", phoneArray.get(position));
                 bundle.putString("arriveWay", arriveWayArray.get(position));
+                bundle.putInt("index", position);
+                bundle.putString("id", mID);
 
                 intent.putExtras(bundle);
                 mActivity.startActivity(intent);

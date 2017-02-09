@@ -222,6 +222,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        // 點大頭貼也可登入
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id != null) {
+                } // 若有登入則不會有動作
+                else {
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, SignIn.class);
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }
+            }
+        });
     }
 
     private void defaultSettingOfStartApplication()
@@ -233,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     {
         linearLayout = (LinearLayout) findViewById(R.id.linearlayout);
         bookStoreCard = new RecyclerView(this);
-        Card myAdapter = new Card(this, getData.getBookStoreCardName(), getData.getBookStoreCardCity(),
+        Card myAdapter = new Card(id ,this, getData.getBookStoreCardName(), getData.getBookStoreCardCity(),
                 getData.getBookStoreCardAddr(), getData.getBookStoreCardTime(),
                 getData.getBookStoreCardImage(),getData.getBookStoreCardphone(),
                 getData.getBookStoreCardarriveWay(),getData.getBookStoreCardIntro());

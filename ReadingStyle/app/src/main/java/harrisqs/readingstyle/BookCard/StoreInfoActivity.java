@@ -57,8 +57,6 @@ public class StoreInfoActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         myFavorites = new DBHelper(this);
-        final SQLiteDatabase db = myFavorites.getWritableDatabase();
-
         image = (ImageView) findViewById(R.id.imageView);
         star = (ImageView)findViewById(R.id.star);
         share = (ImageView) findViewById(R.id.shareIco);
@@ -81,43 +79,40 @@ public class StoreInfoActivity extends AppCompatActivity {
         String openTime = intent.getStringExtra("openTime");
         String phone = intent.getStringExtra("phone");
         String arriveWay = intent.getStringExtra("arriveWay");
-        final String id = "";
+        final String id = intent.getStringExtra("id");
         final String name_ = intent.getStringExtra("userName");
 
         // 如果是訪客(沒有id)則沒有最愛功能, 所以把星星符號隱藏
-        if(id == null || id == "0" || id.isEmpty()) {
+        if(id == null || id == "0" || id.isEmpty())
+        {
             star.setVisibility(View.INVISIBLE);
             share.setVisibility(View.INVISIBLE);
         }
-
         // 如果是會員 先查詢有無曾經加到我的最愛
         else {
-            /*// 查詢我的最愛資料
-            Cursor c = null;//db.rawQuery("SELECT * FROM " + myFavorites.myFavoritesTableName, null);
-
+            // 查詢我的最愛資料
+            Cursor c = myFavorites.queryMyFavorite();
             // 沒有資料表示沒有任何一家加入最愛過
-            if(c.getCount() == 0) {
+            if(c.getCount() == 0)
+            {
                 //Toast.makeText(StoreInfoActivity.this, "沒資料QQ", Toast.LENGTH_SHORT).show();
             }
-
-            //
             else {
                 c.moveToFirst();
                 do {
-
                     String temp = String.valueOf(index);
                     if(c.getString(2).equals(temp)) {
                         star.setImageResource(R.drawable.star);
                         isFavorite = true;
                     }
-
                 } while(c.moveToNext());
-            }*/
+            }
         }
 
-
         if(!representImage.isEmpty()) {
-            Picasso.with(this).load(representImage).error(R.drawable.bookstore).placeholder(R.drawable.bookstore).fit().centerCrop().into(image);
+            Picasso.with(this).load(representImage).
+                    error(R.drawable.bookstore).placeholder(R.drawable.bookstore).
+                    fit().centerCrop().into(image);
         }
         store.setText(name);
         city.setText(cityName);
@@ -131,29 +126,21 @@ public class StoreInfoActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                //Toast.makeText(StoreInfoActivity.this, index+"\n"+id, Toast.LENGTH_SHORT).show();
-
-               /* if(isFavorite == false) {
-
-                    myFavorites.addInMyFavorites(id, index, db);
-
+                if(isFavorite == false) {
+                    myFavorites.addInMyFavorites(id, index);
                     star.setImageResource(R.drawable.star);
                     Toast.makeText(StoreInfoActivity.this, "已加到最愛", Toast.LENGTH_SHORT).show();
                     isFavorite = true;
                 }
                 else {
-
-                    myFavorites.deleteFromMyFavorites(id, index, db);
-
+                    myFavorites.deleteFromMyFavorites(index);
                     star.setImageResource(R.drawable.star0);
                     Toast.makeText(StoreInfoActivity.this, "已移除最愛", Toast.LENGTH_SHORT).show();
                     isFavorite = false;
                 }
-                return false;*/
-            return true;
+                return false;
             }
         });
-
 
         share.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -169,7 +156,6 @@ public class StoreInfoActivity extends AppCompatActivity {
                     intent.setType("image/*");
                     intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                 }
-
                 intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
                 intent.putExtra(Intent.EXTRA_TEXT, name_+" 和你分享了 "+name);
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -180,8 +166,6 @@ public class StoreInfoActivity extends AppCompatActivity {
         });
 
     }
-
-    ///
 
     public Uri getLocalBitmapUri(ImageView imageView) {
         // Extract Bitmap from ImageView drawable
@@ -208,16 +192,12 @@ public class StoreInfoActivity extends AppCompatActivity {
         return bmpUri;
     }
 
-
-    ///
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
             this.finish();
-           // overridePendingTransition(R.anim.right_in_2, R.anim.right_out_2);
         }
         return true;
     }
@@ -230,7 +210,6 @@ public class StoreInfoActivity extends AppCompatActivity {
             x1 = event.getX();
             y1 = event.getY();
         }
-
         if(event.getAction() == MotionEvent.ACTION_UP) {
             // 離開的时候
             x2 = event.getX();
@@ -244,11 +223,9 @@ public class StoreInfoActivity extends AppCompatActivity {
                 //Toast.makeText(this.getApplicationContext(), "向左滑", Toast.LENGTH_SHORT).show();
             } else if(x2 - x1 > 50) {
                 this.finish();
-                //overridePendingTransition(R.anim.right_in_2, R.anim.right_out_2);
                 //Toast.makeText(this.getApplicationContext(), "向右滑", Toast.LENGTH_SHORT).show();
             }
         }
-
         return super.onTouchEvent(event);
     }
 

@@ -17,6 +17,7 @@ import org.json.JSONObject;
 public class DBHelper extends SQLiteOpenHelper
 {
     private final static String bookStoreTableName = "BookStore";    // 存書店資訊
+    public final static String myFavoritesTableName = "myFavorites";    // 存我的最愛資訊
     private SQLiteDatabase dbController;
     public DBHelper(Context context)
     {
@@ -25,14 +26,10 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     @Override
-    public void onCreate(SQLiteDatabase dbController)
-    {
-    }
+    public void onCreate(SQLiteDatabase dbController) {}
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
-    {
-    }
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {}
 
     public void createBookStoreTable()
     {
@@ -54,11 +51,18 @@ public class DBHelper extends SQLiteOpenHelper
                 "latitude VARCHAR(100) " +
                 " );";
         dbController.execSQL(bookstoreSQLCommand);
+
+        // 建立我的最愛Table
+        final String myFavoritesSQL = "CREATE TABLE IF NOT EXISTS " + myFavoritesTableName +
+                "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "userId VARCHAR(100), " +
+                "myFavorites VARCHAR(3) );";
+        dbController.execSQL(myFavoritesSQL);
     }
 
     public void deleteBookStoreTable()
     {
-        final String dropQuery = "DROP TABLE IF EXISTS " + bookStoreTableName;
+        String dropQuery = "DROP TABLE IF EXISTS " + bookStoreTableName;
         dbController.execSQL(dropQuery);
     }
     public void insertBookStore(JSONObject storeDetailData)
@@ -92,6 +96,30 @@ public class DBHelper extends SQLiteOpenHelper
             dbCursor.moveToFirst();    //將指標移到第一筆資料
         }
         return dbCursor;
+    }
+
+    public Cursor queryMyFavorite()
+    {
+        Cursor dbCursor = dbController.rawQuery("SELECT * FROM "+myFavoritesTableName, null);
+        if (dbCursor != null)
+        {
+            dbCursor.moveToFirst();    //將指標移到第一筆資料
+        }
+        return dbCursor;
+    }
+
+    public void addInMyFavorites(String id, int index)
+    {
+        ContentValues values = new ContentValues(2);
+        values.put("userId", id);
+        values.put("myFavorites", index);
+
+        dbController.insert(myFavoritesTableName, null, values);
+    }
+
+    public void deleteFromMyFavorites(int index)
+    {
+        dbController.delete(myFavoritesTableName, "myFavorites = " + index, null);
     }
 
 }
