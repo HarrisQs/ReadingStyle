@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -49,20 +50,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED)
-        {
+                != PackageManager.PERMISSION_GRANTED) {
             requestLocationPermissionForUpVersion();
             return;
-        }
-        else
-        {
+        } else {
             mMap.setMyLocationEnabled(true);
             mark();
         }
@@ -80,8 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // 第一個參數是請求授權的名稱
                 // 第二個參數是請求代碼
                 requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_FINE_LOCATION_PERMISSION);
-            }
-            else {
+            } else {
                 mMap.setMyLocationEnabled(true);
                 mark();
                 // 啟動地圖與定位元件
@@ -93,23 +89,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode == REQUEST_FINE_LOCATION_PERMISSION) {
-            if(ActivityCompat.checkSelfPermission(this,
+        if (requestCode == REQUEST_FINE_LOCATION_PERMISSION) {
+            if (ActivityCompat.checkSelfPermission(this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 // Permission Granted
                 mMap.setMyLocationEnabled(true);
                 mark();
-            }
-            else {
+            } else {
                 // Permission Denied
                 Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    public void mark() {
-
-        //mMap.setMyLocationEnabled(true);
+    public void mark()
+    {
         mMap.setBuildingsEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
@@ -122,7 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add  markers
         List<LatLng> points = new ArrayList<LatLng>();
 
-        /*for(int i = 0; i < longitude.size(); i++) {
+        for(int i = 0; i < longitude.size(); i++) {
             if(latitude.get(i).isEmpty() || longitude.get(i).isEmpty())
             {
                 points.add(new LatLng(0, 0));
@@ -133,7 +127,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(points.get(i)).draggable(true)
                         .title(name.get(i)).snippet(address.get(i)));
             }
-        }*/
+        }
 
         // 把沒有經緯度的手動加進去
         LatLng a001 = new LatLng(22.9753003,120.22234);

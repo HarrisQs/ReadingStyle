@@ -67,7 +67,7 @@ public class DBHelper extends SQLiteOpenHelper
                              "phone", "email", "facebook", "website", "arriveWay", "representImage",
                              "longitude", "latitude" };
         ContentValues values = new ContentValues(13);
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i <= 13; i++)
         {
             try
             {
@@ -84,10 +84,9 @@ public class DBHelper extends SQLiteOpenHelper
         dbController.insert(bookStoreTableName, null, values);
     }
 
-    public Cursor queryBookStore(String condition)
+    public Cursor queryBookStore()
     {
-        Cursor dbCursor = dbController.query(
-                bookStoreTableName, null, condition, null, null, null, null, null);
+        Cursor dbCursor = dbController.rawQuery("SELECT * FROM "+bookStoreTableName, null);
         if (dbCursor != null)
         {
             dbCursor.moveToFirst();    //將指標移到第一筆資料

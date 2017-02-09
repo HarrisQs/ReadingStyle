@@ -95,7 +95,7 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
     private void convertDatatoArrayList()
     {
         DBHelper queryFromDB = new DBHelper(mParentActivity);
-        Cursor dataCursor = queryFromDB.queryBookStore("");
+        Cursor dataCursor = queryFromDB.queryBookStore();
         dataCursor.moveToFirst();
         do
         {
@@ -109,7 +109,6 @@ public class BackgroundStoreData extends AsyncTask<Void, Void, Void>
             ImageTemp.add(dataCursor.getString(12));
             latitudeTemp.add(dataCursor.getString(14));
             longitudeTemp.add(dataCursor.getString(13));
-            //Log.e("latitudeTemp",dataCursor.getString(14));
         }while (dataCursor.moveToNext());
     }
 }

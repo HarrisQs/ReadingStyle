@@ -18,6 +18,7 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.AlignmentSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView emailOrSignIn;             // 有登入顯示email, 否則顯示 "點這裡登入"
     private ImageView profilePic;               // 頭像;
     private TextView aboutOrExplain;            // 關於
+    private MenuItem signOutOption;
+    private MenuItem myFavoritesOption;
 
     // for google user information, google登入後的資訊
     private String userName;                    // 使用者姓名
@@ -107,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         nameOrGuest = (TextView) header.findViewById(R.id.NameOrGuest);
         emailOrSignIn = (TextView) header.findViewById(R.id.EmailOrSignIn);
         profilePic = (ImageView) header.findViewById(R.id.ProfilePic);
+        signOutOption = view.getMenu().findItem(R.id.signOut);
+        myFavoritesOption = view.getMenu().findItem(R.id.myFavorites);
 
         // 按側邊攔功能的動作
         view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         overview();
                         break;
                     case R.id.map:
-                        mToolbar.setTitle(R.string.map);
+                        //mToolbar.setTitle(R.string.map);
                         menuItem.setChecked(false);
                         menuItem.setCheckable(false);
                         map();
@@ -199,8 +204,24 @@ public class MainActivity extends AppCompatActivity {
             {
                 nameOrGuest.setText("訪客");
                 emailOrSignIn.setText("點這裡登入");
+                myFavoritesOption.setVisible(false);    // 沒有我的最愛選項
+                signOutOption.setVisible(false);        // 沒有登出選項(因為沒登入)
             }
         }
+        // 點這裡登入
+        emailOrSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (id != null) {
+                } // 若有登入則不會有動作
+                else {
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, SignIn.class);
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }
+            }
+        });
     }
 
     private void defaultSettingOfStartApplication()
@@ -326,7 +347,6 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, MapsActivity.class);
-
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("name", getData.getBookStoreCardName());
         bundle.putStringArrayList("cityName", getData.getBookStoreCardCity());
