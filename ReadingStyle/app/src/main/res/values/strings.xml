@@ -17,4 +17,5 @@
     <string name="signOut">登出</string>
     <string name="signIn">登入</string>
     <string name="title_activity_maps">Map</string>
+    <string name="search_title">輸入店家或地址</string>
 </resources>
